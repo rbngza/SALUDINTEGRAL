@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SALUDINTEGRAL</string>
+    <string name="bottonCal">Calendario</string>
+    <string name="bottonAli">Alimentacion</string>
+    <string name="bottonEntre">Entretenimiento</string>
+    <string name="bottonActFi">Actividad Física</string>
+    <string name="action_settings">Settings</string>
+</resources>
