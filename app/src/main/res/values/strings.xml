@@ -8,4 +8,6 @@
     <string name="missing_information_save_event">Falta información</string>
     <string name="today">Hoy</string>
     <string name="tomorrow">Mañana</string>
+    <string name="btn_save">Guardar</string>
+    <string name="hint_input_title">Titúlo</string>
 </resources>
