@@ -7,10 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.Date;
 
 public class MenuFragment extends Fragment implements View.OnClickListener{
     private OnFragmentInteractionListener mListener;
@@ -19,14 +15,17 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.menu_layout, container, false);
 
-        Button btnAlimentacion = (Button) view.findViewById(R.id.btn_alimentacion);
-        btnAlimentacion.setOnClickListener(this);
-        Button btnCalendario = (Button) view.findViewById(R.id.btn_calendario);
-        btnCalendario.setOnClickListener(this);
-        Button btnSudoku = (Button) view.findViewById(R.id.btn_entretenimiento);
+        Button btnHistory = (Button) view.findViewById(R.id.btn_history);
+        btnHistory.setOnClickListener(this);
+
+        Button btnAgenda = (Button) view.findViewById(R.id.btn_agenda);
+        btnAgenda.setOnClickListener(this);
+
+        Button btnSudoku = (Button) view.findViewById(R.id.btn_sudoku);
         btnSudoku.setOnClickListener(this);
-        Button btnActFi = (Button) view.findViewById(R.id.btn_actfi);
-        btnActFi.setOnClickListener(this);
+
+        Button btnPlan = (Button) view.findViewById(R.id.btn_plan);
+        btnPlan.setOnClickListener(this);
 
         return view;
     }
@@ -34,23 +33,18 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View v){
         switch (v.getId()) {
-
-            case R.id.btn_calendario:
-                mListener.onCalendarButtonClicked();
+            case R.id.btn_agenda:
+                mListener.onAgendaButtonClicked();
                 break;
-
-            case R.id.btn_alimentacion:
-                // do your code
+            case R.id.btn_history:
+                mListener.onHistoryButtonClicked();
                 break;
-
-            case R.id.btn_entretenimiento:
-                GameEngine.getInstance().createGrid(getActivity());
+            case R.id.btn_sudoku:
+                mListener.onSudokuButtonClicked();
                 break;
-
-            case R.id.btn_actfi:
-                // do your code
+            case R.id.btn_plan:
+                mListener.onPlanButtonClicked();
                 break;
-
             default:
                 break;
         }
@@ -74,15 +68,9 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
     }
 
     public interface OnFragmentInteractionListener {
-        void onCalendarButtonClicked();
-    }
-
-    private void printSudoku(int Sudoku[][]) {
-        for (int y = 0; y < 9; y++) {
-            for (int x = 0; x < 9; x++) {
-                System.out.print(Sudoku[x][y] + "|");
-            }
-            System.out.println();
-        }
+        void onAgendaButtonClicked();
+        void onSudokuButtonClicked();
+        void onHistoryButtonClicked();
+        void onPlanButtonClicked();
     }
 }

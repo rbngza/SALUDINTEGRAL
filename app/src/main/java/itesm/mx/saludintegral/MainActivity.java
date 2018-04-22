@@ -15,8 +15,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class MainActivity extends Activity implements View.OnClickListener, AgendaFragment.OnFragmentInteractionListener, AddEventFragment.OnEventAddedListener, MenuFragment.OnFragmentInteractionListener{
-
+public class MainActivity extends Activity implements View.OnClickListener,
+        AgendaFragment.OnFragmentInteractionListener, AddEventFragment.OnEventAddedListener,
+        MenuFragment.OnFragmentInteractionListener {
     private EventOperations dao;
     ArrayList<Event> events;
 
@@ -25,40 +26,34 @@ public class MainActivity extends Activity implements View.OnClickListener, Agen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Fragment fragment = new MenuFragment();
-        loadMenu(fragment);
-
-        dao = new EventOperations(this);
-        dao.open();
-
         Button btnEmergencia = (Button) findViewById(R.id.btn_emergencia);
         btnEmergencia.setOnClickListener(this);
 
+        loadMenuFragment();
+
+        dao = new EventOperations(this);
+        dao.open();
 
 
 
         ActivityCompat.requestPermissions(MainActivity.this,
                 new String[]{Manifest.permission.CALL_PHONE},
-                0);
-
-
+               0);
     }
 
     @Override
     public void onClick(View v){
         switch (v.getId()) {
-
             case R.id.btn_emergencia:
                 emergencyCall();
                 break;
-
-
             default:
                 break;
         }
     }
 
-    public void loadMenu(Fragment fragment){
+    public void loadMenuFragment(){
+        Fragment fragment = new MenuFragment();
         android.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_container, fragment);
         transaction.commit();
@@ -66,12 +61,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Agen
 
     @SuppressLint("MissingPermission")
     public void emergencyCall() {
-        Intent emergencycall = new Intent(Intent.ACTION_CALL);
-        emergencycall.setData(Uri.parse("tel:911"));
-        startActivity(emergencycall);
+        Intent emergencyCall = new Intent(Intent.ACTION_CALL);
+        emergencyCall.setData(Uri.parse("tel:911"));
+        startActivity(emergencyCall);
     }
 
-    public void addAgendaFragment() {
+    public void loadAgendaFragment() {
         events = getEvents();
         ArrayList<Integer> separatorSet = new ArrayList<>();
         OrderedEvents orderedEvents = new OrderedEvents(separatorSet, events);
@@ -101,15 +96,17 @@ public class MainActivity extends Activity implements View.OnClickListener, Agen
         Toast.makeText(getApplicationContext(), "Event clicked", Toast.LENGTH_LONG).show();
     }
 
-    //This one handles what happens when the user successfully adds an event. The event is added to
-    //the database and the user is returned to the appliance list view.
+    /*
+     * This one handles what happens when the user successfully adds an event. The event is added to
+     * the database and the user is returned to the appliance list view.
+     */
     @Override
     public void onEventAdded(Date date, String title) {
         Event event = new Event(date, title);
         long id = dao.addEvent(event);
         event.setId(id);
         events.add(event);
-        addAgendaFragment();
+        loadAgendaFragment();
     }
 
 
@@ -127,9 +124,27 @@ public class MainActivity extends Activity implements View.OnClickListener, Agen
         super.onResume();
     }
 
+    /*
+     * Callbacks from the menu fragment
+     */
     @Override
-    public void onCalendarButtonClicked() {
-        addAgendaFragment();
+    public void onAgendaButtonClicked() {
+        loadAgendaFragment();
+    }
+
+    @Override
+    public void onSudokuButtonClicked() {
+        //Start sudoku activity here
+    }
+
+    @Override
+    public void onHistoryButtonClicked() {
+        //Show history here
+    }
+
+    @Override
+    public void onPlanButtonClicked() {
+        //Show helpful information for planning a healthy lifestyle here
     }
 }
 

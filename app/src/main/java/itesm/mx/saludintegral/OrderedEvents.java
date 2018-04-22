@@ -8,8 +8,8 @@ import java.util.TreeSet;
  */
 
 public class OrderedEvents {
-    ArrayList<Integer> separatorSet;
-    ArrayList<Event> events;
+    private ArrayList<Integer> separatorSet;
+    private ArrayList<Event> events;
 
     public OrderedEvents(){
         separatorSet = new ArrayList<>();

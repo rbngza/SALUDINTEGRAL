@@ -23,9 +23,9 @@ public class AddEventFragment extends Fragment implements View.OnClickListener, 
     private int hour;
     private int minute;
     private Date chosenDateTime;
-    AutoCompleteTextView etTitle;
-    TextView tvTime;
-    TextView tvDate;
+    private AutoCompleteTextView etTitle;
+    private TextView tvTime;
+    private TextView tvDate;
     private DatePickFragment datePickFragment;
 
     private OnEventAddedListener mListener;
@@ -53,23 +53,34 @@ public class AddEventFragment extends Fragment implements View.OnClickListener, 
         etTitle = view.findViewById(R.id.edit_event_title);
         tvDate = view.findViewById(R.id.text_date);
         tvTime = view.findViewById(R.id.text_time);
+
         chosenDateTime = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(chosenDateTime);
         this.year = cal.get(Calendar.YEAR);
         this.month = cal.get(Calendar.MONTH);
         this.dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-        SimpleDateFormat simpleDateFormat =
-                new SimpleDateFormat("dd/MM-yyyy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM-yyyy");
         tvDate.setText(simpleDateFormat.format(chosenDateTime));
+        simpleDateFormat = new SimpleDateFormat("HH:mm");
+        tvTime.setText(simpleDateFormat.format(chosenDateTime));
+
         btnSave.setOnClickListener(this);
         tvDate.setOnClickListener(this);
         tvTime.setOnClickListener(this);
-        simpleDateFormat = new SimpleDateFormat("HH:mm");
-        tvTime.setText(simpleDateFormat.format(chosenDateTime));
+
+        loadDatePickFragment();
+        return view;
+    }
+
+    private void loadDatePickFragment() {
         datePickFragment = DatePickFragment.newInstance();
         getChildFragmentManager().beginTransaction().replace(R.id.time_date_container, datePickFragment).commit();
-        return view;
+    }
+
+    private void loadTimePickFragment() {
+        TimePickFragment timePickFragment = TimePickFragment.newInstance();
+        getChildFragmentManager().beginTransaction().replace(R.id.time_date_container, timePickFragment).commit();
     }
 
     @Override
@@ -79,16 +90,14 @@ public class AddEventFragment extends Fragment implements View.OnClickListener, 
                 if (!etTitle.toString().equals("") && !etTitle.toString().equals(" ")) {
                     mListener.onEventAdded(chosenDateTime, etTitle.getText().toString());
                 } else {
-                    Toast.makeText(getActivity(), "provide more info", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), R.string.missing_information_save_event, Toast.LENGTH_LONG).show();
                 }
                 break;
             case R.id.text_date:
-                datePickFragment = DatePickFragment.newInstance();
-                getChildFragmentManager().beginTransaction().replace(R.id.time_date_container, datePickFragment).commit();
+                loadDatePickFragment();
                 break;
             case R.id.text_time:
-                TimePickFragment timePickFragment = TimePickFragment.newInstance();
-                getChildFragmentManager().beginTransaction().replace(R.id.time_date_container, timePickFragment).commit();
+                loadTimePickFragment();
                 break;
         }
     }
@@ -114,6 +123,9 @@ public class AddEventFragment extends Fragment implements View.OnClickListener, 
         void onEventAdded(Date date, String title);
     }
 
+    /*
+     * Callback from datePickFragment
+     */
     @Override
     public void onDatePicked(int year, int month, int dayOfMonth) {
         this.year = year;
@@ -122,11 +134,13 @@ public class AddEventFragment extends Fragment implements View.OnClickListener, 
         Date date = new GregorianCalendar(year, month, dayOfMonth).getTime();
         long dateTime = date.getTime();
         chosenDateTime.setTime(dateTime+(hour*60+minute)*60*1000);
-        SimpleDateFormat simpleDateFormat =
-                new SimpleDateFormat("dd/MM-yyyy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM-yyyy");
         tvDate.setText(simpleDateFormat.format(chosenDateTime));
     }
 
+    /*
+     * Callback from timePickFragment
+     */
     @Override
     public void onTimeChosen(int hour, int minute) {
         this.hour = hour;

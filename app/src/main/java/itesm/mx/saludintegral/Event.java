@@ -13,8 +13,6 @@ import java.util.Date;
 public class Event implements Parcelable, Comparable{
     private long id;
     private Date date;
-
-
     private String title;
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {

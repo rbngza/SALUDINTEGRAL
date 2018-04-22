@@ -1,7 +1,6 @@
 package itesm.mx.saludintegral;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -21,6 +20,7 @@ import java.util.Date;
 
 public class EventAdapter extends ArrayAdapter<Event> {
     private ArrayList<Integer> separators;
+
     public EventAdapter(Context context, ArrayList<Event> events, ArrayList<Integer> separators) {
         super(context, 0, events);
         this.separators = separators;
@@ -55,10 +55,10 @@ public class EventAdapter extends ArrayAdapter<Event> {
             tomorrow.add(Calendar.DAY_OF_YEAR, 1);
             if (today.get(Calendar.YEAR) == dateEvent.get(Calendar.YEAR) &&
                     today.get(Calendar.DAY_OF_YEAR) == dateEvent.get(Calendar.DAY_OF_YEAR)) {
-                tvDate.setText("Today");
+                tvDate.setText(R.string.today);
             } else if (tomorrow.get(Calendar.YEAR) == dateEvent.get(Calendar.YEAR) &&
                     tomorrow.get(Calendar.DAY_OF_YEAR) == dateEvent.get(Calendar.DAY_OF_YEAR)) {
-                tvDate.setText("Tomorrow");
+                tvDate.setText(R.string.tomorrow);
             } else {
                 SimpleDateFormat simpleDateFormat =
                         new SimpleDateFormat("dd/MM");

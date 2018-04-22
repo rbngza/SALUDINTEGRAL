@@ -8,7 +8,7 @@
 
 
     <Button
-        android:id="@+id/btn_calendario"
+        android:id="@+id/btn_agenda"
         android:layout_width="160dp"
         android:layout_height="160dp"
         android:layout_marginBottom="8dp"
@@ -16,15 +16,15 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="#9eec00"
-        android:text="@string/bottonCal"
+        android:text="@string/btn_agenda"
         android:textSize="18dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_entretenimiento"
-        app:layout_constraintEnd_toStartOf="@+id/btn_alimentacion"
+        app:layout_constraintBottom_toTopOf="@+id/btn_sudoku"
+        app:layout_constraintEnd_toStartOf="@+id/btn_history"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btn_alimentacion"
+        android:id="@+id/btn_history"
         android:layout_width="160dp"
         android:layout_height="160dp"
         android:layout_marginBottom="8dp"
@@ -32,16 +32,16 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:background="@android:color/holo_blue_bright"
-        android:text="@string/bottonAli"
+        android:text="@string/btn_history"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_actfi"
+        app:layout_constraintBottom_toTopOf="@+id/btn_plan"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_calendario"
+        app:layout_constraintStart_toEndOf="@+id/btn_agenda"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.501" />
 
     <Button
-        android:id="@+id/btn_entretenimiento"
+        android:id="@+id/btn_sudoku"
         android:layout_width="160dp"
         android:layout_height="160dp"
         android:layout_marginBottom="8dp"
@@ -49,15 +49,15 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:background="@android:color/holo_orange_dark"
-        android:text="@string/bottonEntre"
+        android:text="@string/btn_sudoku"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_actfi"
+        app:layout_constraintEnd_toStartOf="@+id/btn_plan"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_calendario" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_agenda" />
 
     <Button
-        android:id="@+id/btn_actfi"
+        android:id="@+id/btn_plan"
         android:layout_width="160dp"
         android:layout_height="160dp"
         android:layout_marginBottom="8dp"
@@ -65,9 +65,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="@android:color/holo_purple"
-        android:text="@string/bottonActFi"
+        android:text="@string/btn_plan"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_entretenimiento"
-        app:layout_constraintTop_toBottomOf="@+id/btn_alimentacion" />
+        app:layout_constraintStart_toEndOf="@+id/btn_sudoku"
+        app:layout_constraintTop_toBottomOf="@+id/btn_history" />
 </android.support.constraint.ConstraintLayout>
