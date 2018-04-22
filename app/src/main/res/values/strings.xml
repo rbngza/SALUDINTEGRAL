@@ -10,4 +10,11 @@
     <string name="tomorrow">Mañana</string>
     <string name="btn_save">Guardar</string>
     <string name="hint_input_title">Titúlo</string>
+    <string name="repeats">Repetición:</string>
+    <string name="input_detailed_information">Información detallada</string>
+    <string-array name="spinner_repeat">
+        <item>Diario</item>
+        <item>Semanual</item>
+        <item>Mensual</item>
+    </string-array>
 </resources>
