@@ -1,6 +1,9 @@
 package itesm.mx.saludintegral;
 
+import android.app.DatePickerDialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -16,7 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class AddEventFragment extends Fragment implements View.OnClickListener, DatePickFragment.OnFragmentInteractionListener, TimePickFragment.OnFragmentInteractionListener{
+public class AddEventFragment extends Fragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, View.OnClickListener{
     private int year;
     private int month;
     private int dayOfMonth;
@@ -26,7 +31,6 @@ public class AddEventFragment extends Fragment implements View.OnClickListener, 
     private AutoCompleteTextView etTitle;
     private TextView tvTime;
     private TextView tvDate;
-    private DatePickFragment datePickFragment;
 
     private OnEventAddedListener mListener;
 
@@ -60,6 +64,8 @@ public class AddEventFragment extends Fragment implements View.OnClickListener, 
         this.year = cal.get(Calendar.YEAR);
         this.month = cal.get(Calendar.MONTH);
         this.dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+        this.hour = cal.get(Calendar.HOUR);
+        this.minute = cal.get(Calendar.MINUTE);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM-yyyy");
         tvDate.setText(simpleDateFormat.format(chosenDateTime));
         simpleDateFormat = new SimpleDateFormat("HH:mm");
@@ -69,35 +75,26 @@ public class AddEventFragment extends Fragment implements View.OnClickListener, 
         tvDate.setOnClickListener(this);
         tvTime.setOnClickListener(this);
 
-        loadDatePickFragment();
         return view;
-    }
-
-    private void loadDatePickFragment() {
-        datePickFragment = DatePickFragment.newInstance();
-        getChildFragmentManager().beginTransaction().replace(R.id.time_date_container, datePickFragment).commit();
-    }
-
-    private void loadTimePickFragment() {
-        TimePickFragment timePickFragment = TimePickFragment.newInstance();
-        getChildFragmentManager().beginTransaction().replace(R.id.time_date_container, timePickFragment).commit();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_save_event:
-                if (!etTitle.toString().equals("") && !etTitle.toString().equals(" ")) {
-                    mListener.onEventAdded(chosenDateTime, etTitle.getText().toString());
-                } else {
+                if (etTitle.getText().toString().length() < 1) {
                     Toast.makeText(getActivity(), R.string.missing_information_save_event, Toast.LENGTH_LONG).show();
+                } else {
+                    mListener.onEventAdded(chosenDateTime, etTitle.getText().toString());
                 }
                 break;
             case R.id.text_date:
-                loadDatePickFragment();
+                DatePickerDialog dateDialog = new DatePickerDialog(getActivity(), this, year, month, dayOfMonth);
+                dateDialog.show();
                 break;
             case R.id.text_time:
-                loadTimePickFragment();
+                TimePickerDialog timeDialog = new TimePickerDialog(getActivity(), this, hour, minute, true);
+                timeDialog.show();
                 break;
         }
     }
@@ -119,15 +116,8 @@ public class AddEventFragment extends Fragment implements View.OnClickListener, 
         mListener = null;
     }
 
-    public interface OnEventAddedListener {
-        void onEventAdded(Date date, String title);
-    }
-
-    /*
-     * Callback from datePickFragment
-     */
     @Override
-    public void onDatePicked(int year, int month, int dayOfMonth) {
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         this.year = year;
         this.month = month;
         this.dayOfMonth = dayOfMonth;
@@ -138,17 +128,18 @@ public class AddEventFragment extends Fragment implements View.OnClickListener, 
         tvDate.setText(simpleDateFormat.format(chosenDateTime));
     }
 
-    /*
-     * Callback from timePickFragment
-     */
     @Override
-    public void onTimeChosen(int hour, int minute) {
-        this.hour = hour;
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        this.hour = hourOfDay;
         this.minute = minute;
         Date date = new GregorianCalendar(year, month, dayOfMonth).getTime();
         long dateTime = date.getTime();
         chosenDateTime.setTime(dateTime+(hour*60+minute)*60*1000);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
         tvTime.setText(simpleDateFormat.format(chosenDateTime));
+    }
+
+    public interface OnEventAddedListener {
+        void onEventAdded(Date date, String title);
     }
 }

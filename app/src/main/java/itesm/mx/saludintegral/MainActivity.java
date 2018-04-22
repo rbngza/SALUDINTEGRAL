@@ -109,7 +109,6 @@ public class MainActivity extends Activity implements View.OnClickListener,
         loadAgendaFragment();
     }
 
-
     //Method for handling a pause of the application. Close the database.
     @Override
     protected void onPause() {
