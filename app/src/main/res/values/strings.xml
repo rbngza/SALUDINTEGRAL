@@ -14,6 +14,7 @@
     <string name="input_detailed_information">Información detallada</string>
     <string name="saving_events">Guardando evento</string>
     <string-array name="spinner_repeat">
+        <item>Único</item>
         <item>Diario</item>
         <item>Semanual</item>
         <item>Mensual</item>

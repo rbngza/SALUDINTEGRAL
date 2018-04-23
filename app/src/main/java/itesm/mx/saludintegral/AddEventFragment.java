@@ -98,12 +98,15 @@ public class AddEventFragment extends Fragment implements DatePickerDialog.OnDat
                     int repeat;
                     switch (spinner.getSelectedItemPosition()) {
                         case 0:
-                            repeat = Calendar.DAY_OF_YEAR;
+                            repeat = 0;
                             break;
                         case 1:
-                            repeat = Calendar.WEEK_OF_YEAR;
+                            repeat = Calendar.DAY_OF_YEAR;
                             break;
                         case 2:
+                            repeat = Calendar.WEEK_OF_YEAR;
+                            break;
+                        case 3:
                             repeat = Calendar.MONTH;
                             break;
                         default:

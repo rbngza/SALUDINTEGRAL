@@ -103,19 +103,26 @@ public class MainActivity extends Activity implements View.OnClickListener,
      */
     @Override
     public void onEventAdded(Date date, String title, int repeat) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.YEAR, 1); // get next year
-        Date endDate = cal.getTime();
-        Calendar calNextDate = Calendar.getInstance();
-        calNextDate.setTime(date);
-        do {
-            Event event = new Event(calNextDate.getTime(), title);
+        if (repeat != 0) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            cal.add(Calendar.YEAR, 1); // get next year
+            Date endDate = cal.getTime();
+            Calendar calNextDate = Calendar.getInstance();
+            calNextDate.setTime(date);
+            do {
+                Event event = new Event(calNextDate.getTime(), title);
+                long id = dao.addEvent(event);
+                event.setId(id);
+                events.add(event);
+                calNextDate.add(repeat, 1);
+            } while (calNextDate.getTime().getTime() < endDate.getTime());
+        } else {
+            Event event = new Event(date, title);
             long id = dao.addEvent(event);
             event.setId(id);
             events.add(event);
-            calNextDate.add(repeat, 1);
-        } while (calNextDate.getTime().getTime() < endDate.getTime());
+        }
         loadAgendaFragment();
     }
 
