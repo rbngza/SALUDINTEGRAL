@@ -35,7 +35,7 @@ public class AddEventFragment extends Fragment implements DatePickerDialog.OnDat
     private TextView tvTime;
     private TextView tvDate;
     private EditText etInformation;
-    private Spinner spinnerRepeat;
+    private Spinner spinner;
 
     private OnEventAddedListener mListener;
 
@@ -80,7 +80,7 @@ public class AddEventFragment extends Fragment implements DatePickerDialog.OnDat
         tvDate.setOnClickListener(this);
         tvTime.setOnClickListener(this);
 
-        Spinner spinner = (Spinner) view.findViewById(R.id.spinner_repeat);
+        spinner = (Spinner) view.findViewById(R.id.spinner_repeat);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.spinner_repeat, R.layout.spinner_item);
         spinner.setAdapter(adapter);
@@ -95,7 +95,23 @@ public class AddEventFragment extends Fragment implements DatePickerDialog.OnDat
                 if (etTitle.getText().toString().length() < 1) {
                     Toast.makeText(getActivity(), R.string.missing_information_save_event, Toast.LENGTH_LONG).show();
                 } else {
-                    mListener.onEventAdded(chosenDateTime, etTitle.getText().toString());
+                    int repeat;
+                    switch (spinner.getSelectedItemPosition()) {
+                        case 0:
+                            repeat = Calendar.DAY_OF_YEAR;
+                            break;
+                        case 1:
+                            repeat = Calendar.WEEK_OF_YEAR;
+                            break;
+                        case 2:
+                            repeat = Calendar.MONTH;
+                            break;
+                        default:
+                            repeat = 0;
+                            break;
+                    }
+                    Toast.makeText(getActivity(), R.string.saving_events, Toast.LENGTH_LONG).show();
+                    mListener.onEventAdded(chosenDateTime, etTitle.getText().toString(), repeat);
                 }
                 break;
             case R.id.text_date:
@@ -150,6 +166,6 @@ public class AddEventFragment extends Fragment implements DatePickerDialog.OnDat
     }
 
     public interface OnEventAddedListener {
-        void onEventAdded(Date date, String title);
+        void onEventAdded(Date date, String title, int repeat);
     }
 }

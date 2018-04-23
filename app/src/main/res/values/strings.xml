@@ -12,6 +12,7 @@
     <string name="hint_input_title">Titúlo</string>
     <string name="repeats">Repetición:</string>
     <string name="input_detailed_information">Información detallada</string>
+    <string name="saving_events">Guardando evento</string>
     <string-array name="spinner_repeat">
         <item>Diario</item>
         <item>Semanual</item>
