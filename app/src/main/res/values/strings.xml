@@ -13,6 +13,7 @@
     <string name="repeats">Repetición:</string>
     <string name="input_detailed_information">Información detallada</string>
     <string name="saving_events">Guardando evento</string>
+    <string name="final_date">Hasta: </string>
     <string-array name="spinner_repeat">
         <item>Único</item>
         <item>Diario</item>
