@@ -102,12 +102,12 @@ public class MainActivity extends Activity implements View.OnClickListener,
      * the database and the user is returned to the appliance list view.
      */
     @Override
-    public void onEventAdded(Date date, String title, String information, int repeat) {
+    public void onEventAdded(Date date, String title, String information, int repeat, Date finalDate) {
         if (repeat != 0) {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(date);
-            cal.add(Calendar.YEAR, 1); // get next year
-            Date endDate = cal.getTime();
+            Calendar finalCal = Calendar.getInstance();
+            finalCal.setTime(finalDate);
+            finalCal.add(Calendar.DAY_OF_YEAR, 1);
+            finalDate = finalCal.getTime();
             Calendar calNextDate = Calendar.getInstance();
             calNextDate.setTime(date);
             do {
@@ -116,7 +116,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
                 event.setId(id);
                 events.add(event);
                 calNextDate.add(repeat, 1);
-            } while (calNextDate.getTime().getTime() < endDate.getTime());
+            } while (calNextDate.getTime().getTime() < finalDate.getTime());
         } else {
             Event event = new Event(date, title, information);
             long id = dao.addEvent(event);
