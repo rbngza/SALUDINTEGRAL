@@ -102,7 +102,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
      * the database and the user is returned to the appliance list view.
      */
     @Override
-    public void onEventAdded(Date date, String title, int repeat) {
+    public void onEventAdded(Date date, String title, String information, int repeat) {
         if (repeat != 0) {
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
@@ -111,14 +111,14 @@ public class MainActivity extends Activity implements View.OnClickListener,
             Calendar calNextDate = Calendar.getInstance();
             calNextDate.setTime(date);
             do {
-                Event event = new Event(calNextDate.getTime(), title);
+                Event event = new Event(calNextDate.getTime(), title, information);
                 long id = dao.addEvent(event);
                 event.setId(id);
                 events.add(event);
                 calNextDate.add(repeat, 1);
             } while (calNextDate.getTime().getTime() < endDate.getTime());
         } else {
-            Event event = new Event(date, title);
+            Event event = new Event(date, title, information);
             long id = dao.addEvent(event);
             event.setId(id);
             events.add(event);
@@ -150,7 +150,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onSudokuButtonClicked() {
-        //Start sudoku activity here
+        //Start the activity with sudoku
     }
 
     @Override

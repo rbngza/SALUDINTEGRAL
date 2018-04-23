@@ -53,6 +53,7 @@ public class EventOperations {
             ContentValues values = new ContentValues();
             values.put(DataBaseSchema.EventTable.COLUMN_NAME_TIME, persistDate(event.getDate()));
             values.put(DataBaseSchema.EventTable.COLUMN_NAME_TITLE, event.getTitle());
+            values.put(DataBaseSchema.EventTable.COLUMN_NAME_INFORMATION, event.getInformation());
 
             newRowId = db.insert(DataBaseSchema.EventTable.TABLE_NAME, null, values);
         } catch (SQLException e) {
@@ -70,7 +71,8 @@ public class EventOperations {
                 do {
                     event = new Event(Integer.parseInt(cursor.getString(0)),
                                     loadDate(cursor.getLong(2)),
-                                    cursor.getString(1));
+                                    cursor.getString(1),
+                                    cursor.getString(3));
                     listEvents.add(event);
                 } while (cursor.moveToNext());
             }
