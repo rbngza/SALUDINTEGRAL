@@ -11,27 +11,27 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp">
+            android:layout_margin="5dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:id="@+id/text_date"
                 android:textColor="@color/colorAccent"
-                android:textSize="30sp"/>
+                android:textSize="28sp"/>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp">
+            android:layout_margin="5dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:textColor="@color/colorAccent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:id="@+id/text_time"
-                android:textSize="30sp"/>
+                android:textSize="28sp"/>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -77,6 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_input_title"
+            android:layout_marginTop="10dp"
             android:textSize="20sp"
             android:lines="1"
             android:id="@+id/edit_event_title"/>
@@ -93,6 +94,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/btn_save"
                 android:id="@+id/button_save_event"
+                android:textSize="20sp"
                 android:layout_centerInParent="true"/>
         </RelativeLayout>
     </LinearLayout>

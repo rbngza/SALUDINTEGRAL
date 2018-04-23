@@ -109,7 +109,7 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
-        simpleDateFormat = new SimpleDateFormat("EEEE dd/MM-yyyy");
+        simpleDateFormat = new SimpleDateFormat("EEE dd/MM-yyyy");
         tvFinalDateDisplay.setText(simpleDateFormat.format(finalDate));
         tvFinalDateText.setText(R.string.final_date);
 
@@ -134,7 +134,7 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
                 toMonth = month;
                 toDayOfMonth = dayOfMonth;
                 finalDate = new GregorianCalendar(year, month, dayOfMonth).getTime();
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE dd/MM-yyyy");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE dd/MM-yyyy");
                 tvFinalDateDisplay.setText(simpleDateFormat.format(finalDate));
             }
         };
