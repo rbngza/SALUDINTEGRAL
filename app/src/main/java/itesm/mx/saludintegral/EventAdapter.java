@@ -33,7 +33,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         if (!separators.contains(position)) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_event, parent, false);
 
-
+            TextView tvInformation = (TextView) convertView.findViewById(R.id.text_information);
             TextView tvTime = (TextView) convertView.findViewById(R.id.text_time);
             TextView tvTitle = (TextView) convertView.findViewById(R.id.text_title);
 
@@ -41,6 +41,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
                     new SimpleDateFormat("HH:mm");
             tvTime.setText(simpleDateFormat.format(event.getDate()));
             tvTitle.setText(event.getTitle());
+            tvInformation.setText(event.getInformation());
             return convertView;
         } else {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_date, parent, false);
@@ -61,7 +62,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
                 tvDate.setText(R.string.tomorrow);
             } else {
                 SimpleDateFormat simpleDateFormat =
-                        new SimpleDateFormat("dd/MM");
+                        new SimpleDateFormat("EEEE dd/MM");
                 tvDate.setText(simpleDateFormat.format(event.getDate()));
             }
             convertView.setEnabled(false);

@@ -14,10 +14,7 @@ public class Event implements Parcelable, Comparable{
     private long id;
     private Date date;
     private String title;
-
-    public static final int REPEAT_DAILY = 1;
-    public static final int REPEAT_WEEKLY = 2;
-    public static final int REPEAT_MONTHLY = 3;
+    private String information;
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         public Event createFromParcel(Parcel in) {
@@ -31,28 +28,33 @@ public class Event implements Parcelable, Comparable{
         id = 0;
         date = new Date();
         title = "";
+        information = "";
     }
 
-    public Event(Date date, String title) {
+    public Event(Date date, String title, String information) {
         this.date = date;
         this.title = title;
+        this.information = information;
     }
 
-    public Event(long id, Date date, String title) {
+    public Event(long id, Date date, String title, String information) {
         this.id = id;
         this.date = date;
         this.title = title;
+        this.information = information;
     }
 
     public Event(Event event) {
         this.date = event.getDate();
         this.title = event.getTitle();
+        this.information = event.getInformation();
     }
 
     public Event(Parcel in) {
         this.id = in.readLong();
         this.date = new Date(in.readLong());
         this.title = in.readString();
+        this.information = in.readString();
     }
 
     @Override
@@ -65,6 +67,7 @@ public class Event implements Parcelable, Comparable{
         dest.writeLong(id);
         dest.writeLong(date.getTime());
         dest.writeString(title);
+        dest.writeString(information);
     }
 
     public Date getDate() {
@@ -99,5 +102,13 @@ public class Event implements Parcelable, Comparable{
         } catch (Exception e) {
             return -1;
         }
+    }
+
+    public String getInformation() {
+        return information;
+    }
+
+    public void setInformation(String information) {
+        this.information = information;
     }
 }

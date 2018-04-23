@@ -17,14 +17,29 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Remember to eat a lot  of medicines otherwise you..."
-            android:textSize="20sp"
-            android:layout_margin="10dp"
-            android:id="@+id/text_title"/>
+            android:orientation="vertical"
+            android:layout_centerInParent="true">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remember"
+                android:textSize="20sp"
+                android:layout_marginStart="10dp"
+                android:textStyle="bold"
+                android:id="@+id/text_title"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:lines="2"
+                android:text="to eat every day otherwise you might get tired and drunk and die before you are supposed to"
+                android:id="@+id/text_information"/>
+        </LinearLayout>
+
     </RelativeLayout>
 
 

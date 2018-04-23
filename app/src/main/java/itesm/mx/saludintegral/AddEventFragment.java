@@ -62,6 +62,7 @@ public class AddEventFragment extends Fragment implements DatePickerDialog.OnDat
         etTitle = view.findViewById(R.id.edit_event_title);
         tvDate = view.findViewById(R.id.text_date);
         tvTime = view.findViewById(R.id.text_time);
+        etInformation = view.findViewById(R.id.edit_event_information);
 
         chosenDateTime = new Date();
         Calendar cal = Calendar.getInstance();
@@ -114,7 +115,7 @@ public class AddEventFragment extends Fragment implements DatePickerDialog.OnDat
                             break;
                     }
                     Toast.makeText(getActivity(), R.string.saving_events, Toast.LENGTH_LONG).show();
-                    mListener.onEventAdded(chosenDateTime, etTitle.getText().toString(), repeat);
+                    mListener.onEventAdded(chosenDateTime, etTitle.getText().toString(), etInformation.getText().toString(), repeat);
                 }
                 break;
             case R.id.text_date:
@@ -169,6 +170,6 @@ public class AddEventFragment extends Fragment implements DatePickerDialog.OnDat
     }
 
     public interface OnEventAddedListener {
-        void onEventAdded(Date date, String title, int repeat);
+        void onEventAdded(Date date, String title, String information, int repeat);
     }
 }

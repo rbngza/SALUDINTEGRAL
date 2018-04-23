@@ -13,5 +13,6 @@ public class DataBaseSchema {
         public static final String TABLE_NAME = "events";
         public static final String COLUMN_NAME_TITLE = "title";
         public static final String COLUMN_NAME_TIME = "time";
+        public static final String COLUMN_NAME_INFORMATION = "information";
     }
 }
