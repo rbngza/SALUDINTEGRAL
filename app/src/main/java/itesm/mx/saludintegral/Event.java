@@ -15,6 +15,10 @@ public class Event implements Parcelable, Comparable{
     private Date date;
     private String title;
 
+    public static final int REPEAT_DAILY = 1;
+    public static final int REPEAT_WEEKLY = 2;
+    public static final int REPEAT_MONTHLY = 3;
+
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         public Event createFromParcel(Parcel in) {
             return new Event(in);

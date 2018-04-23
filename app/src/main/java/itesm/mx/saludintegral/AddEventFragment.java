@@ -9,9 +9,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -31,6 +34,8 @@ public class AddEventFragment extends Fragment implements DatePickerDialog.OnDat
     private AutoCompleteTextView etTitle;
     private TextView tvTime;
     private TextView tvDate;
+    private EditText etInformation;
+    private Spinner spinner;
 
     private OnEventAddedListener mListener;
 
@@ -75,6 +80,11 @@ public class AddEventFragment extends Fragment implements DatePickerDialog.OnDat
         tvDate.setOnClickListener(this);
         tvTime.setOnClickListener(this);
 
+        spinner = (Spinner) view.findViewById(R.id.spinner_repeat);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.spinner_repeat, R.layout.spinner_item);
+        spinner.setAdapter(adapter);
+
         return view;
     }
 
@@ -85,7 +95,26 @@ public class AddEventFragment extends Fragment implements DatePickerDialog.OnDat
                 if (etTitle.getText().toString().length() < 1) {
                     Toast.makeText(getActivity(), R.string.missing_information_save_event, Toast.LENGTH_LONG).show();
                 } else {
-                    mListener.onEventAdded(chosenDateTime, etTitle.getText().toString());
+                    int repeat;
+                    switch (spinner.getSelectedItemPosition()) {
+                        case 0:
+                            repeat = 0;
+                            break;
+                        case 1:
+                            repeat = Calendar.DAY_OF_YEAR;
+                            break;
+                        case 2:
+                            repeat = Calendar.WEEK_OF_YEAR;
+                            break;
+                        case 3:
+                            repeat = Calendar.MONTH;
+                            break;
+                        default:
+                            repeat = 0;
+                            break;
+                    }
+                    Toast.makeText(getActivity(), R.string.saving_events, Toast.LENGTH_LONG).show();
+                    mListener.onEventAdded(chosenDateTime, etTitle.getText().toString(), repeat);
                 }
                 break;
             case R.id.text_date:
@@ -140,6 +169,6 @@ public class AddEventFragment extends Fragment implements DatePickerDialog.OnDat
     }
 
     public interface OnEventAddedListener {
-        void onEventAdded(Date date, String title);
+        void onEventAdded(Date date, String title, int repeat);
     }
 }
