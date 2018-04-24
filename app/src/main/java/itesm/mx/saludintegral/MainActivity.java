@@ -3,6 +3,7 @@ package itesm.mx.saludintegral;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
@@ -123,6 +124,10 @@ public class MainActivity extends Activity implements View.OnClickListener,
             event.setId(id);
             events.add(event);
         }
+        //If succesfully added a new event remove it from the backstack
+        FragmentManager manager = getFragmentManager();
+        manager.popBackStack();
+        manager.popBackStack();
         loadAgendaFragment();
     }
 
