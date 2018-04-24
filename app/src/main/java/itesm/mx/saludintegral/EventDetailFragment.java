@@ -3,6 +3,7 @@ package itesm.mx.saludintegral;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,10 +44,16 @@ public class EventDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_event_detail, container, false);
         TextView tvDate = view.findViewById(R.id.text_date);
         TextView tvTime = view.findViewById(R.id.text_time);
+        TextView tvTitle = view.findViewById(R.id.text_title);
+        TextView tvInformation = view.findViewById(R.id.text_information);
+
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE dd/MM-yyyy");
         tvDate.setText(simpleDateFormat.format(event.getDate()));
         simpleDateFormat = new SimpleDateFormat("HH:mm");
         tvTime.setText(simpleDateFormat.format(event.getDate()));
+        tvTitle.setText(event.getTitle());
+        tvInformation.setText(event.getInformation());
+        tvInformation.setMovementMethod(new ScrollingMovementMethod());
         return view;
     }
 
