@@ -177,8 +177,16 @@ public class MainActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onDeleteEvent(Event event) {
-        //delete this event
-        Toast.makeText(this, "Not implemented yet", Toast.LENGTH_LONG).show();
+        boolean result = dao.deleteEvent(event.getId());
+        if (result) {
+            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show();
+        }
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.popBackStack();
+        fragmentManager.popBackStack();
+        loadAgendaFragment();
     }
 
     @Override

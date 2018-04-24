@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.util.Log;
 import java.util.ArrayList;
 import java.util.Date;
@@ -60,6 +61,18 @@ public class EventOperations {
             Log.e("SQLADD", e.toString());
         }
         return newRowId;
+    }
+
+    public boolean deleteEvent(long id) {
+        boolean result = false;
+        try {db.delete(DataBaseSchema.EventTable.TABLE_NAME,
+                        DataBaseSchema.EventTable._ID + " = ?",
+                        new String[]{String.valueOf(id)});
+            result = true;
+        } catch (SQLiteException e) {
+            Log.e("SQLDELETE", e.toString());
+        }
+        return result;
     }
 
     public ArrayList<Event> getAllEvents() {
