@@ -3,6 +3,7 @@ package itesm.mx.saludintegral;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.TreeSet;
 
 /**
@@ -10,11 +11,14 @@ import java.util.TreeSet;
  */
 
 public class EventHelper {
-    public static OrderedEvents turnIntoDateSeparatedList(OrderedEvents orderedEvents) {
+    public static OrderedEvents turnIntoDateSeparatedList(OrderedEvents orderedEvents, boolean reversed) {
         ArrayList<Event> events = orderedEvents.getEvents();
         ArrayList<Integer> separatorSet = orderedEvents.getSeparatorSet();
         if (events.size() > 0) {
             Collections.sort(events);
+            if (reversed) {
+                Collections.reverse(events);
+            }
             ArrayList<Event> temporaryEvents = new ArrayList<>();
             Event event = new Event(events.get(0));
             temporaryEvents.add(event);
@@ -38,5 +42,27 @@ public class EventHelper {
             return new OrderedEvents(separatorSet, temporaryEvents);
         }
         return new OrderedEvents(separatorSet, events);
+    }
+
+    public static ArrayList<Event> eventsFromDate(ArrayList<Event> events, Date date){
+        ArrayList<Event> eventsFromDate = new ArrayList<>();
+        for (int i = 0; i < events.size(); i++) {
+            Event event = events.get(i);
+            if(event.getDate().compareTo(date)>0){
+                eventsFromDate.add(event);
+            }
+        }
+        return eventsFromDate;
+    }
+
+    public static ArrayList<Event> eventsToDate(ArrayList<Event> events, Date date){
+        ArrayList<Event> eventsFromDate = new ArrayList<>();
+        for (int i = 0; i < events.size(); i++) {
+            Event event = events.get(i);
+            if(event.getDate().compareTo(date)<0){
+                eventsFromDate.add(event);
+            }
+        }
+        return eventsFromDate;
     }
 }
