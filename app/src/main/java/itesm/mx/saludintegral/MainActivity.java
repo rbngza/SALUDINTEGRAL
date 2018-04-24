@@ -95,7 +95,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onEventItemClicked(Event event) {
-        EventDetailFragment eventDetailFragment = EventDetailFragment.newInstance();
+        EventDetailFragment eventDetailFragment = EventDetailFragment.newInstance(event);
         getFragmentManager().beginTransaction().replace(R.id.frame_container, eventDetailFragment).addToBackStack(null).commit();
     }
 
