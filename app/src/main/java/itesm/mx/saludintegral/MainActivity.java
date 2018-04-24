@@ -19,7 +19,7 @@ import java.util.Date;
 
 public class MainActivity extends Activity implements View.OnClickListener,
         AgendaFragment.OnFragmentInteractionListener, AddEventFragment.OnEventAddedListener,
-        MenuFragment.OnFragmentInteractionListener {
+        MenuFragment.OnFragmentInteractionListener, EventDetailFragment.OnFragmentInteractionListener {
     private EventOperations dao;
     ArrayList<Event> events;
 
@@ -95,7 +95,8 @@ public class MainActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onEventItemClicked(Event event) {
-        Toast.makeText(getApplicationContext(), "Event clicked", Toast.LENGTH_LONG).show();
+        EventDetailFragment eventDetailFragment = EventDetailFragment.newInstance(event);
+        getFragmentManager().beginTransaction().replace(R.id.frame_container, eventDetailFragment).addToBackStack(null).commit();
     }
 
     /*
@@ -166,6 +167,26 @@ public class MainActivity extends Activity implements View.OnClickListener,
     @Override
     public void onPlanButtonClicked() {
         //Show helpful information for planning a healthy lifestyle here
+    }
+
+    @Override
+    public void onModifyEvent(Event event) {
+        //modify this event in some way
+        Toast.makeText(this, "Not implemented yet", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onDeleteEvent(Event event) {
+        //delete this event
+        Toast.makeText(this, "Not implemented yet", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onOkay() {
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.popBackStack();
+        fragmentManager.popBackStack();
+        loadAgendaFragment();
     }
 }
 
