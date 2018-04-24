@@ -168,6 +168,26 @@ public class MainActivity extends Activity implements View.OnClickListener,
     public void onPlanButtonClicked() {
         //Show helpful information for planning a healthy lifestyle here
     }
+
+    @Override
+    public void onModifyEvent(Event event) {
+        //modify this event in some way
+        Toast.makeText(this, "Not implemented yet", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onDeleteEvent(Event event) {
+        //delete this event
+        Toast.makeText(this, "Not implemented yet", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onOkay() {
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.popBackStack();
+        fragmentManager.popBackStack();
+        loadAgendaFragment();
+    }
 }
 
 
