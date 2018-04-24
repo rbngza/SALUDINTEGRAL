@@ -1,7 +1,9 @@
 package itesm.mx.saludintegral;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
@@ -15,6 +17,21 @@ import java.text.SimpleDateFormat;
 public class EventDetailFragment extends Fragment implements View.OnClickListener{
     private static final String EVENT_KEY = "event";
     private Event event;
+    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    mListener.onDeleteEvent(event);
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //No button clicked
+                    break;
+            }
+        }
+    };
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -69,7 +86,9 @@ public class EventDetailFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_delete:
-                mListener.onDeleteEvent(event);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
                 break;
             case R.id.btn_modify:
                 mListener.onModifyEvent(event);
