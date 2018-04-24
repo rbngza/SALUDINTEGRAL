@@ -19,7 +19,7 @@ import java.util.Date;
 
 public class MainActivity extends Activity implements View.OnClickListener,
         AgendaFragment.OnFragmentInteractionListener, AddEventFragment.OnEventAddedListener,
-        MenuFragment.OnFragmentInteractionListener {
+        MenuFragment.OnFragmentInteractionListener, EventDetailFragment.OnFragmentInteractionListener {
     private EventOperations dao;
     ArrayList<Event> events;
 
@@ -95,7 +95,8 @@ public class MainActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onEventItemClicked(Event event) {
-        Toast.makeText(getApplicationContext(), "Event clicked", Toast.LENGTH_LONG).show();
+        EventDetailFragment eventDetailFragment = EventDetailFragment.newInstance();
+        getFragmentManager().beginTransaction().replace(R.id.frame_container, eventDetailFragment).addToBackStack(null).commit();
     }
 
     /*
