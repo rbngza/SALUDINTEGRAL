@@ -13,23 +13,26 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 
-public class AgendaFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener{
+public class EventListFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener{
     private OnFragmentInteractionListener mListener;
     private static final String EVENT_KEY = "events";
     private static final String SEPARATOR_KEY = "separator";
+    private static final String ADD_ENABLED_KEY = "addevents";
     private ArrayList<Event> events;
     private ArrayList<Integer> separators;
     private EventAdapter eventAdapter;
+    private boolean addEventDisabled;
 
-    public AgendaFragment() {
+    public EventListFragment() {
         // Required empty public constructor
     }
 
-    public static AgendaFragment newInstance(OrderedEvents orderedEvents) {
-        AgendaFragment fragment = new AgendaFragment();
+    public static EventListFragment newInstance(OrderedEvents orderedEvents, boolean addEventDisabled) {
+        EventListFragment fragment = new EventListFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList(EVENT_KEY, orderedEvents.getEvents());
         args.putIntegerArrayList(SEPARATOR_KEY, orderedEvents.getSeparatorSet());
+        args.putBoolean(ADD_ENABLED_KEY, addEventDisabled);
         fragment.setArguments(args);
         return fragment;
     }
@@ -40,6 +43,7 @@ public class AgendaFragment extends Fragment implements View.OnClickListener, Ad
         if (getArguments() != null) {
             events = getArguments().getParcelableArrayList(EVENT_KEY);
             separators = getArguments().getIntegerArrayList(SEPARATOR_KEY);
+            addEventDisabled = getArguments().getBoolean(ADD_ENABLED_KEY);
         }
         eventAdapter = new EventAdapter(getActivity(), events, separators);
     }
@@ -55,6 +59,9 @@ public class AgendaFragment extends Fragment implements View.OnClickListener, Ad
 
         FloatingActionButton floatingActionButton = view.findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(this);
+        if (addEventDisabled){
+            floatingActionButton.hide();
+        }
         return view;
     }
 

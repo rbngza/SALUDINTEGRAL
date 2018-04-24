@@ -18,10 +18,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends Activity implements View.OnClickListener,
-        AgendaFragment.OnFragmentInteractionListener, AddEventFragment.OnEventAddedListener,
+        EventListFragment.OnFragmentInteractionListener, AddEventFragment.OnEventAddedListener,
         MenuFragment.OnFragmentInteractionListener, EventDetailFragment.OnFragmentInteractionListener {
     private EventOperations dao;
-    ArrayList<Event> events;
+    private boolean inHistoryView; //Probably not the optimal solution but I want to reuse the event list fragment and this was the best solution for navigation issues
+    private ArrayList<Event> events;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +71,22 @@ public class MainActivity extends Activity implements View.OnClickListener,
 
     public void loadAgendaFragment() {
         events = getEvents();
+        events = EventHelper.eventsFromDate(events, new Date());
         ArrayList<Integer> separatorSet = new ArrayList<>();
         OrderedEvents orderedEvents = new OrderedEvents(separatorSet, events);
-        orderedEvents = EventHelper.turnIntoDateSeparatedList(orderedEvents);
-        AgendaFragment agendaFragment = AgendaFragment.newInstance(orderedEvents);
-        getFragmentManager().beginTransaction().replace(R.id.frame_container, agendaFragment).addToBackStack(null).commit();
+        orderedEvents = EventHelper.turnIntoDateSeparatedList(orderedEvents, false);
+        EventListFragment eventListFragment = EventListFragment.newInstance(orderedEvents, false);
+        getFragmentManager().beginTransaction().replace(R.id.frame_container, eventListFragment).addToBackStack(null).commit();
+    }
+
+    public void loadHistoryFragment() {
+        events = getEvents();
+        events = EventHelper.eventsToDate(events, new Date());
+        ArrayList<Integer> separatorSet = new ArrayList<>();
+        OrderedEvents orderedEvents = new OrderedEvents(separatorSet, events);
+        orderedEvents = EventHelper.turnIntoDateSeparatedList(orderedEvents, true);
+        EventListFragment eventListFragment = EventListFragment.newInstance(orderedEvents, true);
+        getFragmentManager().beginTransaction().replace(R.id.frame_container, eventListFragment).addToBackStack(null).commit();
     }
 
     //Method to get the events from the database
@@ -151,6 +163,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
      */
     @Override
     public void onAgendaButtonClicked() {
+        inHistoryView = false;
         loadAgendaFragment();
     }
 
@@ -161,7 +174,8 @@ public class MainActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onHistoryButtonClicked() {
-        //Show history here
+        inHistoryView = true;
+        loadHistoryFragment();
     }
 
     @Override
@@ -186,7 +200,11 @@ public class MainActivity extends Activity implements View.OnClickListener,
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.popBackStack();
         fragmentManager.popBackStack();
-        loadAgendaFragment();
+        if (inHistoryView){
+            loadHistoryFragment();
+        } else {
+            loadAgendaFragment();
+        }
     }
 
     @Override
