@@ -16,7 +16,6 @@ public class Event implements Parcelable, Comparable{
     private String title;
     private String information;
     private int type;
-    private int notificationID;
     private boolean isDone;
 
     private static final int GENERAL = 0;
@@ -38,7 +37,6 @@ public class Event implements Parcelable, Comparable{
         title = "";
         information = "";
         type = GENERAL;
-        notificationID = 0;
         isDone = false;
     }
 
@@ -47,7 +45,6 @@ public class Event implements Parcelable, Comparable{
         this.title = title;
         this.information = information;
         type = GENERAL;
-        notificationID = 0;
         isDone = false;
     }
 
@@ -57,7 +54,6 @@ public class Event implements Parcelable, Comparable{
         this.title = title;
         this.information = information;
         this.type = type;
-        notificationID = 0;
         isDone = false;
     }
 
@@ -66,7 +62,6 @@ public class Event implements Parcelable, Comparable{
         this.title = event.getTitle();
         this.information = event.getInformation();
         this.type = event.getType();
-        this.notificationID = event.getNotificationID();
         this.isDone = event.isDone();
     }
 
@@ -76,7 +71,6 @@ public class Event implements Parcelable, Comparable{
         this.title = in.readString();
         this.information = in.readString();
         this.type = in.readInt();
-        this.notificationID = in.readInt();
         this.isDone = in.readByte() != 0;
     }
 
@@ -92,7 +86,6 @@ public class Event implements Parcelable, Comparable{
         dest.writeString(title);
         dest.writeString(information);
         dest.writeInt(type);
-        dest.writeInt(notificationID);
         dest.writeByte((byte) (isDone ? 1 : 0));
     }
 
@@ -126,9 +119,6 @@ public class Event implements Parcelable, Comparable{
 
     public int getType() { return type;    }
     public void setType(int type) { this.type = type;    }
-
-    public int getNotificationID() { return notificationID;    }
-    public void setNotificationID(int notificationID) { this.notificationID = notificationID;    }
 
     public boolean isDone() { return isDone;    }
     public void setDone(boolean done) {isDone = done; }
