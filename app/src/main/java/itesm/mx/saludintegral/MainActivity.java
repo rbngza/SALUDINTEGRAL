@@ -3,16 +3,24 @@ package itesm.mx.saludintegral;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.FragmentManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,6 +31,10 @@ public class MainActivity extends Activity implements View.OnClickListener,
     private EventOperations dao;
     private boolean inHistoryView; //Probably not the optimal solution but I want to reuse the event list fragment and this was the best solution for navigation issues
     private ArrayList<Event> events;
+
+    private Intent notificationIntent;
+    private PendingIntent pendingIntent;
+    NotificationManager notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +49,9 @@ public class MainActivity extends Activity implements View.OnClickListener,
         dao = new EventOperations(this);
         dao.open();
 
+        notificationIntent = new Intent(getApplicationContext(), NotificationActivity.class);
+        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0 , notificationIntent, PendingIntent.FLAG_ONE_SHOT);
 
 
         ActivityCompat.requestPermissions(MainActivity.this,
@@ -124,18 +139,25 @@ public class MainActivity extends Activity implements View.OnClickListener,
             finalDate = finalCal.getTime();
             Calendar calNextDate = Calendar.getInstance();
             calNextDate.setTime(date);
+            //scheduleNotification(getNotification(title, information), date.getTime(), 1);
             do {
                 Event event = new Event(calNextDate.getTime(), title, information);
                 long id = dao.addEvent(event);
                 event.setId(id);
                 events.add(event);
                 calNextDate.add(repeat, 1);
+                //scheduleNotification(getNotification(title, information), calNextDate.getTime().getTime(), 1);
             } while (calNextDate.getTime().getTime() < finalDate.getTime());
         } else {
             Event event = new Event(date, title, information);
             long id = dao.addEvent(event);
             event.setId(id);
             events.add(event);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE dd/MM/yyyy HH:mm");
+
+            Toast.makeText(this, simpleDateFormat.format(event.getDate()),Toast.LENGTH_LONG).show();
+            scheduleNotification(getNotification(title, information), date.getTime(), 1);
+
         }
         //If succesfully added a new event remove it from the backstack
         FragmentManager manager = getFragmentManager();
@@ -143,6 +165,27 @@ public class MainActivity extends Activity implements View.OnClickListener,
         manager.popBackStack();
         loadAgendaFragment();
     }
+
+
+    private void scheduleNotification(Notification notification, long date , int id ) {
+
+        Intent notificationIntent = new Intent(this, NotifReceiver.class);
+        notificationIntent.putExtra(NotifReceiver.NOTIFICATION_ID, id);
+        notificationIntent.putExtra(NotifReceiver.NOTIFICATION, notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC, date, pendingIntent);
+    }
+
+    private Notification getNotification(String title, String information) {
+        Notification.Builder builder = new Notification.Builder(this);
+        builder.setContentTitle(title);
+        builder.setContentText(information);
+        builder.setSmallIcon(R.drawable.cell_shape);
+        return builder.build();
+    }
+
 
     //Method for handling a pause of the application. Close the database.
     @Override
