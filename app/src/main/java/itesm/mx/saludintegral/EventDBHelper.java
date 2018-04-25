@@ -1,5 +1,6 @@
 package itesm.mx.saludintegral;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -26,7 +27,9 @@ public class EventDBHelper extends SQLiteOpenHelper {
                 DataBaseSchema.EventTable._ID + " INTEGER PRIMARY KEY," +
                 DataBaseSchema.EventTable.COLUMN_NAME_TITLE + " TEXT," +
                 DataBaseSchema.EventTable.COLUMN_NAME_TIME + " INTEGER," +
-                DataBaseSchema.EventTable.COLUMN_NAME_INFORMATION + " TEXT" +
+                DataBaseSchema.EventTable.COLUMN_NAME_INFORMATION + " TEXT," +
+                DataBaseSchema.EventTable.COLUMN_NAME_TYPE + " INTEGER," +
+                DataBaseSchema.EventTable.COLUMN_NAME_ISDONE + " INTEGER" +
                 ")";
         Log.i("Eventhelper onCreate", CREATE_EVENTS_TABLE);
         db.execSQL(CREATE_EVENTS_TABLE);

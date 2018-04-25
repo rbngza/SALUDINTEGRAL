@@ -55,6 +55,12 @@ public class EventOperations {
             values.put(DataBaseSchema.EventTable.COLUMN_NAME_TIME, persistDate(event.getDate()));
             values.put(DataBaseSchema.EventTable.COLUMN_NAME_TITLE, event.getTitle());
             values.put(DataBaseSchema.EventTable.COLUMN_NAME_INFORMATION, event.getInformation());
+            values.put(DataBaseSchema.EventTable.COLUMN_NAME_TYPE, event.getType());
+            if (event.isDone()){
+                values.put(DataBaseSchema.EventTable.COLUMN_NAME_ISDONE, 1);
+            } else {
+                values.put(DataBaseSchema.EventTable.COLUMN_NAME_ISDONE, 0);
+            }
 
             newRowId = db.insert(DataBaseSchema.EventTable.TABLE_NAME, null, values);
         } catch (SQLException e) {
@@ -85,7 +91,9 @@ public class EventOperations {
                     event = new Event(Integer.parseInt(cursor.getString(0)),
                                     loadDate(cursor.getLong(2)),
                                     cursor.getString(1),
-                                    cursor.getString(3));
+                                    cursor.getString(3),
+                                    cursor.getInt(4),
+                                    cursor.getInt(5)==1);
                     listEvents.add(event);
                 } while (cursor.moveToNext());
             }
