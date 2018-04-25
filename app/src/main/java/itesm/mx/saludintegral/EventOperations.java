@@ -85,7 +85,7 @@ public class EventOperations {
                     event = new Event(Integer.parseInt(cursor.getString(0)),
                                     loadDate(cursor.getLong(2)),
                                     cursor.getString(1),
-                                    cursor.getString(3));
+                                    cursor.getString(3),0);
                     listEvents.add(event);
                 } while (cursor.moveToNext());
             }
