@@ -86,7 +86,12 @@ public class MainActivity extends Activity implements View.OnClickListener,
 
     public void loadAgendaFragment() {
         events = getEvents();
-        events = EventHelper.eventsFromDate(events, new Date());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.set(Calendar.HOUR, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        events = EventHelper.eventsFromDate(events, cal.getTime());
         ArrayList<Integer> separatorSet = new ArrayList<>();
         OrderedEvents orderedEvents = new OrderedEvents(separatorSet, events);
         orderedEvents = EventHelper.turnIntoDateSeparatedList(orderedEvents, false);
