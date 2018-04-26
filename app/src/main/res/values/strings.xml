@@ -10,14 +10,25 @@
     <string name="tomorrow">Mañana</string>
     <string name="btn_save">Guardar</string>
     <string name="hint_input_title">Titúlo</string>
+    <string name="hint_input_name">Nombre</string>
     <string name="repeats">Repetición:</string>
     <string name="input_detailed_information">Información detallada</string>
     <string name="saving_events">Guardando evento</string>
     <string name="final_date">Hasta: </string>
+    <string name="s_alimentos1">- Pollo \n- Arroz \n- Potatoe\n- Tomate\n- Kiwi \n</string>
+    <string name="s_alimentos2">- Pavo \n- Pan \n- Lechuga \n- Manzana \n- Pepino\n</string>
+    <string name="s_ejercicios1">- Caminata \n- Nadar \n- Pararse en 1 pie 10 seg \n- Bicicleta \n- Caminar de Talon a Dedos\n</string>
+    <string name="s_ejercicios2">- Ej. Equilibrio \n- Estirar \n- Bailar \n- Bandas Elasticas \n- Pesas \n</string>
+    <string name="s_mental1">- Sudoku \n- Leer \n- Sumas y Restas \n- Crucigramas \n- Memorama \n</string>
+    <string name="s_mental2">- Pictionary \n- Videojuegos \n- Adivina el animal \n- Acertijos \n-  Formar palabras aleatorias\n</string>
+
     <string-array name="spinner_repeat">
         <item>Único</item>
         <item>Diario</item>
         <item>Semanual</item>
         <item>Mensual</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
