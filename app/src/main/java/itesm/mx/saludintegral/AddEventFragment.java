@@ -188,7 +188,7 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
                 dateDialog.show();
                 break;
             case R.id.text_time:
-                TimePickerDialog timeDialog = new TimePickerDialog(getActivity(), this, hour, minute, true);
+                TimePickerDialog timeDialog = new TimePickerDialog(getActivity(), this, hour, minute, false);
                 timeDialog.show();
                 break;
             case R.id.text_display_final_date:

@@ -144,14 +144,13 @@ public class MainActivity extends Activity implements View.OnClickListener,
             finalDate = finalCal.getTime();
             Calendar calNextDate = Calendar.getInstance();
             calNextDate.setTime(date);
-            //scheduleNotification(getNotification(title, information), date.getTime(), 1);
             do {
                 Event event = new Event(calNextDate.getTime(), title, information);
                 long id = dao.addEvent(event);
                 event.setId(id);
                 events.add(event);
                 calNextDate.add(repeat, 1);
-                //scheduleNotification(getNotification(title, information), calNextDate.getTime().getTime(), 1);
+                scheduleNotification(getNotification(title, information), calNextDate.getTime().getTime(), id);
             } while (calNextDate.getTime().getTime() < finalDate.getTime());
         } else {
             Event event = new Event(date, title, information);
@@ -161,7 +160,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE dd/MM/yyyy HH:mm");
 
             Toast.makeText(this, simpleDateFormat.format(event.getDate()),Toast.LENGTH_LONG).show();
-            scheduleNotification(getNotification(title, information), date.getTime(), 1);
+            scheduleNotification(getNotification(title, information), date.getTime(), id);
 
         }
         //If succesfully added a new event remove it from the backstack
@@ -172,7 +171,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
     }
 
 
-    private void scheduleNotification(Notification notification, long date , int id ) {
+    private void scheduleNotification(Notification notification, long date , long id ) {
 
         Intent notificationIntent = new Intent(this, NotifReceiver.class);
         notificationIntent.putExtra(NotifReceiver.NOTIFICATION_ID, id);
@@ -182,6 +181,18 @@ public class MainActivity extends Activity implements View.OnClickListener,
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC, date, pendingIntent);
     }
+
+    private void cancelNotification(Notification notification, long date , long id ) {
+
+        Intent notificationIntent = new Intent(this, NotifReceiver.class);
+        notificationIntent.putExtra(NotifReceiver.NOTIFICATION_ID, id);
+        notificationIntent.putExtra(NotifReceiver.NOTIFICATION, notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.cancel(pendingIntent);
+    }
+
 
     private Notification getNotification(String title, String information) {
         Notification.Builder builder = new Notification.Builder(this);
@@ -240,8 +251,11 @@ public class MainActivity extends Activity implements View.OnClickListener,
     @Override
     public void onDeleteEvent(Event event) {
         boolean result = dao.deleteEvent(event.getId());
+        long id = event.getId();
+        long date = event.getDate().getTime();
         if (result) {
             Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+            cancelNotification(getNotification("Canceled notification", "This notification has been canceled."), date, id);
         } else {
             Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show();
         }
