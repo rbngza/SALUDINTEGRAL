@@ -34,6 +34,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
 
     private Intent notificationIntent;
     private PendingIntent pendingIntent;
+    private Event oldEvent;
     NotificationManager notificationManager;
 
     @Override
@@ -121,7 +122,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onEventAddButtonClicked() {
-        AddEventFragment addEventFragment = AddEventFragment.newInstance();
+        AddEventFragment addEventFragment = AddEventFragment.newInstance(null);
         getFragmentManager().beginTransaction().replace(R.id.frame_container, addEventFragment).addToBackStack(null).commit();
     }
 
@@ -136,7 +137,18 @@ public class MainActivity extends Activity implements View.OnClickListener,
      * the database and the user is returned to the appliance list view.
      */
     @Override
-    public void onEventAdded(Date date, String title, String information, int repeat, Date finalDate) {
+    public void onEventAdded(Date date, String title, String information, int repeat, Date finalDate, boolean isModifying) {
+        if (isModifying) {
+            boolean result = dao.deleteEvent(oldEvent.getId());
+            long id = oldEvent.getId();
+            long time = oldEvent.getDate().getTime();
+            if (result) {
+                Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+                cancelNotification(getNotification("Canceled notification", "This notification has been canceled."), time, id);
+            } else {
+                Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show();
+            }
+        }
         if (repeat != 0) {
             Calendar finalCal = Calendar.getInstance();
             finalCal.setTime(finalDate);
@@ -244,8 +256,9 @@ public class MainActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onModifyEvent(Event event) {
-        //modify this event in some way
-        Toast.makeText(this, "Not implemented yet", Toast.LENGTH_LONG).show();
+        oldEvent = event;
+        AddEventFragment addEventFragment = AddEventFragment.newInstance(event);
+        getFragmentManager().beginTransaction().replace(R.id.frame_container, addEventFragment).addToBackStack(null).commit();
     }
 
     @Override
