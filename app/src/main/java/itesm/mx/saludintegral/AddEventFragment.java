@@ -118,6 +118,8 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
             spinner.setVisibility(View.INVISIBLE);
             etTitle.setText(event.getTitle());
             etInformation.setText(event.getInformation());
+            TextView tvRepeat = (TextView) view.findViewById(R.id.text_repeat);
+            tvRepeat.setVisibility(View.INVISIBLE);
         } else {
             date = new Date();
             finalDate = date;

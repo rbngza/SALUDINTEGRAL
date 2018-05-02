@@ -27,7 +27,8 @@ import java.util.Date;
 
 public class MainActivity extends Activity implements View.OnClickListener,
         EventListFragment.OnFragmentInteractionListener, AddEventFragment.OnEventAddedListener,
-        MenuFragment.OnFragmentInteractionListener, EventDetailFragment.OnFragmentInteractionListener {
+        MenuFragment.OnFragmentInteractionListener, ListenerCheckBox,
+        EventDetailFragment.OnFragmentInteractionListener {
     private EventOperations dao;
     private boolean inHistoryView; //Probably not the optimal solution but I want to reuse the event list fragment and this was the best solution for navigation issues
     private ArrayList<Event> events;
@@ -288,6 +289,16 @@ public class MainActivity extends Activity implements View.OnClickListener,
         fragmentManager.popBackStack();
         fragmentManager.popBackStack();
         loadAgendaFragment();
+    }
+
+    @Override
+    public void onEventChecked(int position, boolean isChecked) {
+        Toast.makeText(this, "changed", Toast.LENGTH_LONG).show();
+        Event event = events.get(position);
+        event.setDone(isChecked);
+        boolean result = dao.deleteEvent(event.getId());
+        long id = dao.addEvent(event);
+        event.setId(id);
     }
 }
 

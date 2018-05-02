@@ -45,7 +45,7 @@ public class EventListFragment extends Fragment implements View.OnClickListener,
             separators = getArguments().getIntegerArrayList(SEPARATOR_KEY);
             addEventDisabled = getArguments().getBoolean(ADD_ENABLED_KEY);
         }
-        eventAdapter = new EventAdapter(getActivity(), events, separators);
+        eventAdapter = new EventAdapter(getActivity(), events, separators, (MainActivity) getActivity());
     }
 
     @Override
