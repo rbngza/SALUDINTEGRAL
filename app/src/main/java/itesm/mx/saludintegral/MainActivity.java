@@ -241,7 +241,9 @@ public class MainActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onSudokuButtonClicked() {
-        //Start the activity with sudoku
+        SudokuFragment fragment = new SudokuFragment();
+        getFragmentManager().beginTransaction().replace(R.id.frame_container, fragment).addToBackStack(null).commit();
+
     }
 
     @Override
