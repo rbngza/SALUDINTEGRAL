@@ -241,7 +241,9 @@ public class MainActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onSudokuButtonClicked() {
-        //Start the activity with sudoku
+
+        setContentView(R.layout.sudoku_layout);
+        GameEngine.getInstance().createGrid(this);
     }
 
     @Override
