@@ -16,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends Activity implements View.OnClickListener,
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,
         EventListFragment.OnFragmentInteractionListener, AddEventFragment.OnEventAddedListener,
         MenuFragment.OnFragmentInteractionListener, ListenerCheckBox,
         EventDetailFragment.OnFragmentInteractionListener {
@@ -211,7 +212,9 @@ public class MainActivity extends Activity implements View.OnClickListener,
         Notification.Builder builder = new Notification.Builder(this);
         builder.setContentTitle(title);
         builder.setContentText(information);
+        builder.setPriority(Notification.PRIORITY_MAX);
         builder.setSmallIcon(R.drawable.cell_shape);
+        builder.setDefaults(Notification.DEFAULT_SOUND|Notification.DEFAULT_LIGHTS|Notification.DEFAULT_VIBRATE);
         return builder.build();
     }
 
