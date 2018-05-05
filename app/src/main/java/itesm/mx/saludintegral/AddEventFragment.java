@@ -86,6 +86,9 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        if (mListener == null) {
+            mListener = (OnEventAddedListener) getActivity();
+        }
         View view = inflater.inflate(R.layout.fragment_add_event, container, false);
         Button btnSave = view.findViewById(R.id.button_save_event);
         etTitle = view.findViewById(R.id.edit_event_title);
