@@ -7,7 +7,7 @@
     tools:layout_editor_absoluteY="89dp">
 
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_agenda"
         android:layout_width="160dp"
         android:layout_height="160dp"
@@ -15,15 +15,20 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:adjustViewBounds="true"
         android:background="#9eec00"
+        android:padding="20dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/iconoagenda"
         android:text="@string/btn_agenda"
-        android:textSize="18dp"
+        android:textSize="18sp"
+        android:tint="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/btn_sudoku"
         app:layout_constraintEnd_toStartOf="@+id/btn_history"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_history"
         android:layout_width="160dp"
         android:layout_height="160dp"
@@ -31,16 +36,19 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:padding="20dp"
+        android:scaleType="fitCenter"
         android:background="@android:color/holo_blue_bright"
         android:text="@string/btn_history"
         android:textSize="18sp"
+        android:adjustViewBounds="true"
         app:layout_constraintBottom_toTopOf="@+id/btn_plan"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btn_agenda"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.501" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_sudoku"
         android:layout_width="160dp"
         android:layout_height="160dp"
@@ -48,15 +56,20 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:adjustViewBounds="true"
         android:background="@android:color/holo_orange_dark"
+        android:padding="20dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/iconosudoku"
         android:text="@string/btn_sudoku"
         android:textSize="16sp"
+        android:tint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btn_plan"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_agenda" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_plan"
         android:layout_width="160dp"
         android:layout_height="160dp"
@@ -64,8 +77,13 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:adjustViewBounds="true"
         android:background="@android:color/holo_purple"
+        android:padding="20dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/iconosalud"
         android:text="@string/btn_plan"
+        android:tint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btn_sudoku"
