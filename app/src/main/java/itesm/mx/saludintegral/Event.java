@@ -18,10 +18,10 @@ public class Event implements Parcelable, Comparable{
     private int type;
     private boolean isDone;
 
-    private static final int GENERAL = 0;
-    private static final int PILL = 1;
-    private static final int FOOD = 2;
-    private static final int EXERCISE = 3;
+    static final int GENERAL = 0;
+    static final int PILL = 1;
+    static final int FOOD = 2;
+    static final int EXERCISE = 3;
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         public Event createFromParcel(Parcel in) {
@@ -45,6 +45,13 @@ public class Event implements Parcelable, Comparable{
         this.title = title;
         this.information = information;
         this.type = GENERAL;
+        this.isDone = false;
+    }
+    public Event(Date date, String title, String information, int type) {
+        this.date = date;
+        this.title = title;
+        this.information = information;
+        this.type = type;
         this.isDone = false;
     }
 

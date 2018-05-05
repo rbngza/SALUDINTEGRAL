@@ -103,4 +103,27 @@ public class EventOperations {
         }
         return listEvents;
     }
+    public ArrayList<Event> getAllEventsOfType(int type) {
+        ArrayList<Event> listEvents = new ArrayList<Event>();
+        String selectQuery = "SELECT * FROM " + DataBaseSchema.EventTable.TABLE_NAME + " WHERE " + DataBaseSchema.EventTable.COLUMN_NAME_TYPE +
+                "=" + Integer.toString(type) + " ORDER BY " + DataBaseSchema.EventTable.COLUMN_NAME_TIME + " DESC";
+        try {
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    event = new Event(Integer.parseInt(cursor.getString(0)),
+                            loadDate(cursor.getLong(2)),
+                            cursor.getString(1),
+                            cursor.getString(3),
+                            cursor.getInt(4),
+                            cursor.getInt(5)==1);
+                    listEvents.add(event);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (SQLException e) {
+            Log.e("SQLLIST", e.toString());
+        }
+        return listEvents;
+    }
 }
