@@ -87,8 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(emergencyCall);
     }
 
-    public void loadAgendaFragment() {
-        events = getEvents();
+    public void loadAgendaFragment(ArrayList<Event> events, int searchType) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.set(Calendar.HOUR, 0);
@@ -98,23 +97,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ArrayList<Integer> separatorSet = new ArrayList<>();
         OrderedEvents orderedEvents = new OrderedEvents(separatorSet, events);
         orderedEvents = EventHelper.turnIntoDateSeparatedList(orderedEvents, false);
-        EventListFragment eventListFragment = EventListFragment.newInstance(orderedEvents, false);
+        EventListFragment eventListFragment = EventListFragment.newInstance(orderedEvents, false, searchType);
         getFragmentManager().beginTransaction().replace(R.id.frame_container, eventListFragment).addToBackStack(null).commit();
     }
 
-    public void loadHistoryFragment() {
-        events = getEvents();
+    public void loadHistoryFragment(ArrayList<Event> events, int searchType) {
         events = EventHelper.eventsToDate(events, new Date());
         ArrayList<Integer> separatorSet = new ArrayList<>();
         OrderedEvents orderedEvents = new OrderedEvents(separatorSet, events);
         orderedEvents = EventHelper.turnIntoDateSeparatedList(orderedEvents, true);
-        EventListFragment eventListFragment = EventListFragment.newInstance(orderedEvents, true);
+        EventListFragment eventListFragment = EventListFragment.newInstance(orderedEvents, true, searchType);
         getFragmentManager().beginTransaction().replace(R.id.frame_container, eventListFragment).addToBackStack(null).commit();
     }
 
     //Method to get the events from the database
     public ArrayList<Event> getEvents() {
         ArrayList<Event> eventList = dao.getAllEvents();
+        if (eventList!=null){
+            return eventList;
+        } else {
+            return null;
+        }
+    }
+
+    //Method to get the events from the database for a specific type
+    public ArrayList<Event> getEventsOfType(int type) {
+        ArrayList<Event> eventList = dao.getAllEventsOfType(type);
         if (eventList!=null){
             return eventList;
         } else {
@@ -181,7 +189,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FragmentManager manager = getFragmentManager();
         manager.popBackStack();
         manager.popBackStack();
-        loadAgendaFragment();
+        events = getEvents();
+        loadAgendaFragment(events, 0);
     }
 
 
@@ -239,7 +248,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onAgendaButtonClicked() {
         inHistoryView = false;
-        loadAgendaFragment();
+        events = getEvents();
+        loadAgendaFragment(events, 0);
     }
 
     @Override
@@ -252,7 +262,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onHistoryButtonClicked() {
         inHistoryView = true;
-        loadHistoryFragment();
+        events = getEvents();
+        loadHistoryFragment(events, 0);
     }
 
     @Override
@@ -282,9 +293,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragmentManager.popBackStack();
         fragmentManager.popBackStack();
         if (inHistoryView){
-            loadHistoryFragment();
+            events = getEvents();
+            loadHistoryFragment(events, 0);
         } else {
-            loadAgendaFragment();
+            events = getEvents();
+            loadAgendaFragment(events, 0);
         }
     }
 
@@ -293,7 +306,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.popBackStack();
         fragmentManager.popBackStack();
-        loadAgendaFragment();
+        events = getEvents();
+        loadAgendaFragment(events, 0);
     }
 
     @Override
@@ -304,6 +318,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         boolean result = dao.deleteEvent(event.getId());
         long id = dao.addEvent(event);
         event.setId(id);
+    }
+
+    @Override
+    public void onSearchUpdated(int type) {
+        if (type != 0) {
+            events = getEventsOfType(type-1);
+        } else {
+            events = getEvents();
+        }
+        getFragmentManager().popBackStack();
+        if (inHistoryView){
+            loadHistoryFragment(events, type);
+        } else {
+            loadAgendaFragment(events, type);
+        }
     }
 }
 
