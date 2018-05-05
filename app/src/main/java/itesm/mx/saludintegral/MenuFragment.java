@@ -29,6 +29,11 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
 
         ImageButton btnPlan = (ImageButton) view.findViewById(R.id.btn_plan);
         btnPlan.setOnClickListener(this);
+
+        if (mListener == null) {
+            mListener = (OnFragmentInteractionListener) getActivity();
+        }
+
         return view;
     }
 
