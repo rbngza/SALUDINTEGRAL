@@ -13,6 +13,7 @@
         android:layout_width="253dp"
         android:layout_height="107dp"
         android:horizontalSpacing="0dp"
+        android:layout_centerHorizontal="true"
         android:numColumns="9"
         android:verticalSpacing="0dp" />
 
@@ -21,6 +22,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/sudokuGridView"
-        android:numColumns="6"></itesm.mx.saludintegral.ButtonsGridView>
+        android:numColumns="3"></itesm.mx.saludintegral.ButtonsGridView>
 
 </RelativeLayout>

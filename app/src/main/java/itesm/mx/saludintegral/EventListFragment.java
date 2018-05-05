@@ -52,6 +52,9 @@ public class EventListFragment extends Fragment implements View.OnClickListener,
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        if (mListener == null) {
+            mListener = (OnFragmentInteractionListener) getActivity();
+        }
         View view = inflater.inflate(R.layout.fragment_agenda, container, false);
         ListView listView = view.findViewById(R.id.list_agenda);
         listView.setAdapter(eventAdapter);
