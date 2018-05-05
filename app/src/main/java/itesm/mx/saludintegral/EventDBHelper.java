@@ -15,6 +15,7 @@ public class EventDBHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     public EventDBHelper(Context context) {
+
         //Create database
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }

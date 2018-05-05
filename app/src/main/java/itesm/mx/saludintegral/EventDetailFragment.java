@@ -64,6 +64,7 @@ public class EventDetailFragment extends Fragment implements View.OnClickListene
         TextView tvTime = view.findViewById(R.id.text_time);
         TextView tvTitle = view.findViewById(R.id.text_title);
         TextView tvInformation = view.findViewById(R.id.text_information);
+        TextView tvType = view.findViewById(R.id.text_type);
         Button btnModify = view.findViewById(R.id.btn_modify);
         Button btnDelete = view.findViewById(R.id.btn_delete);
         Button btnOk = view.findViewById(R.id.btn_ok);
@@ -78,6 +79,7 @@ public class EventDetailFragment extends Fragment implements View.OnClickListene
         tvTime.setText(simpleDateFormat.format(event.getDate()));
         tvTitle.setText(event.getTitle());
         tvInformation.setText(event.getInformation());
+        tvType.setText(getResources().getStringArray(R.array.spinner_type)[event.getType()]);
         tvInformation.setMovementMethod(new ScrollingMovementMethod());
         if (mListener == null) {
             mListener = (OnFragmentInteractionListener) getActivity();

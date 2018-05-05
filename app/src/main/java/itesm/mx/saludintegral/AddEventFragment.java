@@ -43,10 +43,13 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
     private TextView tvDate;
     private EditText etInformation;
     private Spinner spinner;
+    private Spinner spinnerType;
     private TextView tvFinalDateText;
     private TextView tvFinalDateDisplay;
+    private int type = Event.GENERAL;
     private static final int DATE_PICKER_TO = 0;
     private static final int DATE_PICKER_FROM = 1;
+    private static final String TYPE_KEY = "type";
     private static final String EVENT_KEY = "event";
     private Event event;
     private boolean isModifying;
@@ -59,11 +62,12 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
         // Required empty public constructor
     }
 
-    public static AddEventFragment newInstance(Event event) {
+    public static AddEventFragment newInstance(Event event, int type) {
         AddEventFragment fragment = new AddEventFragment();
         if (event != null) {
             Bundle args = new Bundle();
             args.putParcelable(EVENT_KEY, event);
+            args.putInt(TYPE_KEY, type);
             fragment.setArguments(args);
         }
         return fragment;
@@ -75,6 +79,7 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
         if (getArguments() != null) {
             event = getArguments().getParcelable(EVENT_KEY);
             isModifying = true;
+            type = getArguments().getInt(TYPE_KEY);
         } else {
             event = null;
             isModifying = false;
@@ -150,6 +155,19 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
             spinner.setOnItemSelectedListener(this);
         }
 
+        spinnerType = (Spinner) view.findViewById(R.id.spinner_type);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.spinner_type, R.layout.spinner_item);
+        spinnerType.setAdapter(adapter);
+        spinnerType.setOnItemSelectedListener(this);
+        TextView textType = (TextView) view.findViewById(R.id.text_type);
+        if (type != 0){
+            textType.setText(getResources().getStringArray(R.array.spinner_type)[type]);
+            spinnerType.setVisibility(View.GONE);
+        } else {
+            textType.setVisibility(View.GONE);
+        }
+
         btnSave.setOnClickListener(this);
         tvDate.setOnClickListener(this);
         tvTime.setOnClickListener(this);
@@ -221,7 +239,7 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
                             break;
                     }
                     Toast.makeText(getActivity(), R.string.saving_events, Toast.LENGTH_LONG).show();
-                    mListener.onEventAdded(date, etTitle.getText().toString(), etInformation.getText().toString(), repeat, finalDate, isModifying);
+                    mListener.onEventAdded(date, etTitle.getText().toString(), etInformation.getText().toString(), repeat, finalDate, isModifying, type);
                 }
                 break;
             case R.id.text_date:
@@ -270,13 +288,20 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (position != 0) {
-            tvFinalDateText.setVisibility(View.VISIBLE);
-            tvFinalDateDisplay.setVisibility(View.VISIBLE);
-            onCreateDialog(DATE_PICKER_TO).show();
-        } else {
-            tvFinalDateDisplay.setVisibility(View.GONE);
-            tvFinalDateText.setVisibility(View.GONE);
+        switch (parent.getId()) {
+            case R.id.spinner_repeat:
+                if (position != 0) {
+                    tvFinalDateText.setVisibility(View.VISIBLE);
+                    tvFinalDateDisplay.setVisibility(View.VISIBLE);
+                    onCreateDialog(DATE_PICKER_TO).show();
+                } else {
+                    tvFinalDateDisplay.setVisibility(View.GONE);
+                    tvFinalDateText.setVisibility(View.GONE);
+                }
+                break;
+            case R.id.spinner_type:
+                type = position;
+                break;
         }
     }
 
@@ -286,6 +311,6 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
     }
 
     public interface OnEventAddedListener {
-        void onEventAdded(Date date, String title, String information, int repeat, Date finalDate, boolean isModifying);
+        void onEventAdded(Date date, String title, String information, int repeat, Date finalDate, boolean isModifying, int type);
     }
 }

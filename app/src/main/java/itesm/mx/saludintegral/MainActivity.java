@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onEventAddButtonClicked() {
-        AddEventFragment addEventFragment = AddEventFragment.newInstance(null);
+        AddEventFragment addEventFragment = AddEventFragment.newInstance(null, Event.GENERAL);
         getFragmentManager().beginTransaction().replace(R.id.frame_container, addEventFragment).addToBackStack(null).commit();
     }
 
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * the database and the user is returned to the appliance list view.
      */
     @Override
-    public void onEventAdded(Date date, String title, String information, int repeat, Date finalDate, boolean isModifying) {
+    public void onEventAdded(Date date, String title, String information, int repeat, Date finalDate, boolean isModifying, int type) {
         if (isModifying) {
             boolean result = dao.deleteEvent(oldEvent.getId());
             long id = oldEvent.getId();
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Calendar calNextDate = Calendar.getInstance();
             calNextDate.setTime(date);
             do {
-                Event event = new Event(calNextDate.getTime(), title, information);
+                Event event = new Event(calNextDate.getTime(), title, information, type);
                 long id = dao.addEvent(event);
                 event.setId(id);
                 events.add(event);
@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 scheduleNotification(getNotification(title, information), calNextDate.getTime().getTime(), id);
             } while (calNextDate.getTime().getTime() < finalDate.getTime());
         } else {
-            Event event = new Event(date, title, information);
+            Event event = new Event(date, title, information, type);
             long id = dao.addEvent(event);
             event.setId(id);
             events.add(event);
@@ -263,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onModifyEvent(Event event) {
         oldEvent = event;
-        AddEventFragment addEventFragment = AddEventFragment.newInstance(event);
+        AddEventFragment addEventFragment = AddEventFragment.newInstance(event, event.getType());
         getFragmentManager().beginTransaction().replace(R.id.frame_container, addEventFragment).addToBackStack(null).commit();
     }
 
