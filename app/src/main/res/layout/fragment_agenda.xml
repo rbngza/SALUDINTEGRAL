@@ -37,4 +37,14 @@
         android:focusable="false"
         android:src="@mipmap/ic_launcher"/>
 
+    <TextView
+        android:id="@+id/text_noevents"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/no_events"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        android:visibility="invisible" />
+
 </FrameLayout>
