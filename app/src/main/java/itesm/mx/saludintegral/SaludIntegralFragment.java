@@ -26,6 +26,9 @@ public class SaludIntegralFragment extends Fragment implements View.OnClickListe
         Button btnEjercicio = (Button) v.findViewById(R.id.btn_ejercicios);
         btnEjercicio.setOnClickListener(this);
 
+        Button btnMental = (Button) v.findViewById(R.id.btn_mental);
+        btnMental.setOnClickListener(this);
+
 
         return v;
     }
@@ -39,6 +42,8 @@ public class SaludIntegralFragment extends Fragment implements View.OnClickListe
             case R.id.btn_ejercicios:
                 mListener.onEventAddExercise();
                 break;
+            case R.id.btn_mental:
+                mListener.onEventAddMental();
             default:
                 break;
         }
@@ -48,5 +53,6 @@ public class SaludIntegralFragment extends Fragment implements View.OnClickListe
     public interface OnEventAddedListener {
         void onEventAddFood();
         void onEventAddExercise();
+        void onEventAddMental();
     }
 }
