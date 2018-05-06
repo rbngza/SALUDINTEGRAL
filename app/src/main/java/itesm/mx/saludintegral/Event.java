@@ -67,6 +67,7 @@ public class Event implements Parcelable, Comparable{
     }
 
     public Event(Event event) {
+        this.id = event.getId();
         this.date = event.getDate();
         this.title = event.getTitle();
         this.information = event.getInformation();

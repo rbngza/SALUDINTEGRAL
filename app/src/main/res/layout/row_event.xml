@@ -20,6 +20,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/checkbox"
             android:orientation="vertical"
             android:layout_centerInParent="true">
             <TextView
@@ -36,9 +38,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:lines="2"
-                android:text="to eat every day otherwise you might get tired and drunk and die before you are supposed to"
+                android:text="to eat skjdlkasjd adslödjasölkd dlsaökdöaslkd aslökdöaslkdöl aöslkdölaskdö asölkdöaslkdösa ölaksdölaskd"
                 android:id="@+id/text_information"/>
         </LinearLayout>
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_margin="10dp"
+            android:scaleY="1.5"
+            android:scaleX="1.5"
+            android:focusable="false"/>
 
     </RelativeLayout>
 

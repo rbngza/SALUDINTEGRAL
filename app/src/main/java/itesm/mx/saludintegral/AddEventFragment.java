@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,10 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
     private static final int DATE_PICKER_TO = 0;
     private static final int DATE_PICKER_FROM = 1;
     static final String TIPO_KEY = "tipo";
+    private static final String EVENT_KEY = "event";
+    private Event event;
+    private boolean isModifying;
+
 
     private OnEventAddedListener mListener;
 
@@ -57,14 +62,26 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
         // Required empty public constructor
     }
 
-    public static AddEventFragment newInstance() {
+    public static AddEventFragment newInstance(Event event) {
         AddEventFragment fragment = new AddEventFragment();
+        if (event != null) {
+            Bundle args = new Bundle();
+            args.putParcelable(EVENT_KEY, event);
+            fragment.setArguments(args);
+        }
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            event = getArguments().getParcelable(EVENT_KEY);
+            isModifying = true;
+        } else {
+            event = null;
+            isModifying = false;
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -76,6 +93,9 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
             tipo = args.getInt(TIPO_KEY);
         }
         // Inflate the layout for this fragment
+        if (mListener == null) {
+            mListener = (OnEventAddedListener) getActivity();
+        }
         View view = inflater.inflate(R.layout.fragment_add_event, container, false);
         Button btnSave = view.findViewById(R.id.button_save_event);
         etTitle = view.findViewById(R.id.edit_event_title);
@@ -87,37 +107,59 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
         tvFinalDateDisplay.setVisibility(View.GONE);
         tvFinalDateText.setVisibility(View.GONE);
         tvFinalDateDisplay.setOnClickListener(this);
+        SimpleDateFormat simpleDateFormat;
 
-        date = new Date();
-        finalDate = date;
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        this.fromYear = cal.get(Calendar.YEAR);
-        this.fromMonth = cal.get(Calendar.MONTH);
-        this.fromDayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-        this.hour = cal.get(Calendar.HOUR);
-        this.minute = cal.get(Calendar.MINUTE);
-        this.toYear = cal.get(Calendar.YEAR);
-        this.toMonth = cal.get(Calendar.MONTH);
-        this.toDayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE dd/MM-yyyy");
-        tvDate.setText(simpleDateFormat.format(date));
-        simpleDateFormat = new SimpleDateFormat("HH:mm");
-        tvTime.setText(simpleDateFormat.format(date));
+        if (event != null) {
+            date = event.getDate();
+            tvFinalDateText.setVisibility(View.INVISIBLE);
+            tvFinalDateDisplay.setVisibility(View.INVISIBLE);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            this.fromYear = cal.get(Calendar.YEAR);
+            this.fromMonth = cal.get(Calendar.MONTH);
+            this.fromDayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+            this.hour = cal.get(Calendar.HOUR_OF_DAY);
+            this.minute = cal.get(Calendar.MINUTE);
+            simpleDateFormat = new SimpleDateFormat("EEEE dd/MM-yyyy");
+            tvDate.setText(simpleDateFormat.format(date));
+            simpleDateFormat = new SimpleDateFormat("HH:mm");
+            tvTime.setText(simpleDateFormat.format(date));
+            spinner = (Spinner) view.findViewById(R.id.spinner_repeat);
+            spinner.setVisibility(View.INVISIBLE);
+            etTitle.setText(event.getTitle());
+            etInformation.setText(event.getInformation());
+            TextView tvRepeat = (TextView) view.findViewById(R.id.text_repeat);
+            tvRepeat.setVisibility(View.INVISIBLE);
+        } else {
+            date = new Date();
+            finalDate = date;
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            this.fromYear = cal.get(Calendar.YEAR);
+            this.fromMonth = cal.get(Calendar.MONTH);
+            this.fromDayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+            this.hour = cal.get(Calendar.HOUR_OF_DAY);
+            this.minute = cal.get(Calendar.MINUTE);
+            this.toYear = cal.get(Calendar.YEAR);
+            this.toMonth = cal.get(Calendar.MONTH);
+            this.toDayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+            simpleDateFormat = new SimpleDateFormat("EEEE dd/MM-yyyy");
+            tvDate.setText(simpleDateFormat.format(date));
+            simpleDateFormat = new SimpleDateFormat("HH:mm");
+            tvTime.setText(simpleDateFormat.format(date));
+            simpleDateFormat = new SimpleDateFormat("EEE dd/MM-yyyy");
+            tvFinalDateDisplay.setText(simpleDateFormat.format(finalDate));
+            tvFinalDateText.setText(R.string.final_date);
+            spinner = (Spinner) view.findViewById(R.id.spinner_repeat);
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                    R.array.spinner_repeat, R.layout.spinner_item);
+            spinner.setAdapter(adapter);
+            spinner.setOnItemSelectedListener(this);
+        }
 
         btnSave.setOnClickListener(this);
         tvDate.setOnClickListener(this);
         tvTime.setOnClickListener(this);
-
-        spinner = (Spinner) view.findViewById(R.id.spinner_repeat);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.spinner_repeat, R.layout.spinner_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
-
-        simpleDateFormat = new SimpleDateFormat("EEE dd/MM-yyyy");
-        tvFinalDateDisplay.setText(simpleDateFormat.format(finalDate));
-        tvFinalDateText.setText(R.string.final_date);
 
         from_dateListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -185,8 +227,8 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
                             repeat = 0;
                             break;
                     }
-                    Toast.makeText(getActivity(), R.string.saving_events, Toast.LENGTH_LONG).show();
-                    mListener.onEventAdded(date, etTitle.getText().toString(), etInformation.getText().toString(), repeat, finalDate, tipo);
+                    Toast.makeText(getActivity(), R.string.saving_events, Toast.LENGTH_LONG).show()
+                    mListener.onEventAdded(date, etTitle.getText().toString(), etInformation.getText().toString(), repeat, finalDate, isModifying, tipo);
                 }
                 break;
             case R.id.text_date:
@@ -194,7 +236,7 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
                 dateDialog.show();
                 break;
             case R.id.text_time:
-                TimePickerDialog timeDialog = new TimePickerDialog(getActivity(), this, hour, minute, true);
+                TimePickerDialog timeDialog = new TimePickerDialog(getActivity(), this, hour, minute, DateFormat.is24HourFormat(getActivity()));
                 timeDialog.show();
                 break;
             case R.id.text_display_final_date:
@@ -251,6 +293,6 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
     }
 
     public interface OnEventAddedListener {
-        void onEventAdded(Date date, String title, String information, int repeat, Date finalDate, int tipo);
+        void onEventAdded(Date date, String title, String information, int repeat, Date finalDate, boolean isModifying, int tipo);
     }
 }

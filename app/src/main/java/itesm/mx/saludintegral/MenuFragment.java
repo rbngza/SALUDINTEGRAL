@@ -2,11 +2,14 @@ package itesm.mx.saludintegral;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 public class MenuFragment extends Fragment implements View.OnClickListener{
     private OnFragmentInteractionListener mListener;
@@ -15,20 +18,26 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.menu_layout, container, false);
 
-        Button btnHistory = (Button) view.findViewById(R.id.btn_history);
+        ImageButton btnHistory = (ImageButton) view.findViewById(R.id.btn_history);
         btnHistory.setOnClickListener(this);
 
-        Button btnAgenda = (Button) view.findViewById(R.id.btn_agenda);
+        ImageButton btnAgenda = (ImageButton) view.findViewById(R.id.btn_agenda);
         btnAgenda.setOnClickListener(this);
 
-        Button btnSudoku = (Button) view.findViewById(R.id.btn_sudoku);
+        ImageButton btnSudoku = (ImageButton) view.findViewById(R.id.btn_sudoku);
         btnSudoku.setOnClickListener(this);
 
-        Button btnPlan = (Button) view.findViewById(R.id.btn_plan);
+        ImageButton btnPlan = (ImageButton) view.findViewById(R.id.btn_plan);
         btnPlan.setOnClickListener(this);
+
+        if (mListener == null) {
+            mListener = (OnFragmentInteractionListener) getActivity();
+        }
 
         return view;
     }
+
+
 
     @Override
     public void onClick(View v){

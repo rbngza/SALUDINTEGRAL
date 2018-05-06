@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -20,16 +22,18 @@ import java.util.Date;
 
 public class EventAdapter extends ArrayAdapter<Event> {
     private ArrayList<Integer> separators;
+    private ListenerCheckBox mListenerCheckBox;
 
-    public EventAdapter(Context context, ArrayList<Event> events, ArrayList<Integer> separators) {
+    public EventAdapter(Context context, ArrayList<Event> events, ArrayList<Integer> separators, ListenerCheckBox listenerCheckBox) {
         super(context, 0, events);
         this.separators = separators;
+        mListenerCheckBox = listenerCheckBox;
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        Event event = getItem(position);
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        final Event event = getItem(position);
         if (!separators.contains(position)) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_event, parent, false);
 
@@ -42,6 +46,24 @@ public class EventAdapter extends ArrayAdapter<Event> {
             tvTime.setText(simpleDateFormat.format(event.getDate()));
             tvTitle.setText(event.getTitle());
             tvInformation.setText(event.getInformation());
+            CheckBox checkBox = convertView.findViewById(R.id.checkbox);
+            checkBox.setChecked(event.isDone());
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    int eventPosition = position;
+                    int counter = 0;
+                    try {
+                        while (separators.get(counter) < position) {
+                            eventPosition--;
+                            counter++;
+                        }
+                    } catch (Exception e){
+                        // if reach end of separators stop
+                    }
+                    mListenerCheckBox.onEventChecked(eventPosition, isChecked);
+                }
+            });
             return convertView;
         } else {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_date, parent, false);

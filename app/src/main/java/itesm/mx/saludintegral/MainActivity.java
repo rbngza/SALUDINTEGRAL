@@ -16,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -25,15 +26,18 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends Activity implements View.OnClickListener,
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,
         EventListFragment.OnFragmentInteractionListener, AddEventFragment.OnEventAddedListener,
-        MenuFragment.OnFragmentInteractionListener, EventDetailFragment.OnFragmentInteractionListener, SaludIntegral.OnFragmentInteractionListener {
+        MenuFragment.OnFragmentInteractionListener, ListenerCheckBox,
+        EventDetailFragment.OnFragmentInteractionListener {
+
     private EventOperations dao;
     private boolean inHistoryView; //Probably not the optimal solution but I want to reuse the event list fragment and this was the best solution for navigation issues
     private ArrayList<Event> events;
 
     private Intent notificationIntent;
     private PendingIntent pendingIntent;
+    private Event oldEvent;
     NotificationManager notificationManager;
 
     @Override
@@ -85,6 +89,21 @@ public class MainActivity extends Activity implements View.OnClickListener,
     }
 
 
+    public void loadAgendaFragment() {
+        events = getEvents();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.set(Calendar.HOUR, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        events = EventHelper.eventsFromDate(events, cal.getTime());
+        ArrayList<Integer> separatorSet = new ArrayList<>();
+        OrderedEvents orderedEvents = new OrderedEvents(separatorSet, events);
+        orderedEvents = EventHelper.turnIntoDateSeparatedList(orderedEvents, false);
+        EventListFragment eventListFragment = EventListFragment.newInstance(orderedEvents, false);
+        getFragmentManager().beginTransaction().replace(R.id.frame_container, eventListFragment).addToBackStack(null).commit();
+    }
+
 
     public void loadHistoryFragment() {
         events = getEvents();
@@ -96,10 +115,12 @@ public class MainActivity extends Activity implements View.OnClickListener,
         getFragmentManager().beginTransaction().replace(R.id.frame_container, eventListFragment).addToBackStack(null).commit();
     }
 
+
     public void loadSaludFragment() {
         SaludIntegral saludIntegral = new SaludIntegral();
         getFragmentManager().beginTransaction().replace(R.id.frame_container, saludIntegral).addToBackStack(null).commit();
     }
+
     //Method to get the events from the database
     public ArrayList<Event> getEvents() {
         ArrayList<Event> eventList = dao.getAllEvents();
@@ -111,6 +132,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
     }
 
     @Override
+
     public void onEventAddButtonClicked(int tipo) {
         Bundle bundle = new Bundle();
         bundle.putInt(AddEventFragment.TIPO_KEY, tipo);
@@ -157,7 +179,18 @@ public class MainActivity extends Activity implements View.OnClickListener,
      * the database and the user is returned to the appliance list view.
      */
     @Override
-    public void onEventAdded(Date date, String title, String information, int repeat, Date finalDate, int tipo) {
+    public void onEventAdded(Date date, String title, String information, int repeat, Date finalDate, boolean isModifying, int tipo) {
+        if (isModifying) {
+            boolean result = dao.deleteEvent(oldEvent.getId());
+            long id = oldEvent.getId();
+            long time = oldEvent.getDate().getTime();
+            if (result) {
+                Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+                cancelNotification(getNotification("Canceled notification", "This notification has been canceled."), time, id);
+            } else {
+                Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show();
+            }
+        }
         if (repeat != 0) {
             Calendar finalCal = Calendar.getInstance();
             finalCal.setTime(finalDate);
@@ -165,14 +198,13 @@ public class MainActivity extends Activity implements View.OnClickListener,
             finalDate = finalCal.getTime();
             Calendar calNextDate = Calendar.getInstance();
             calNextDate.setTime(date);
-            //scheduleNotification(getNotification(title, information), date.getTime(), 1);
             do {
                 Event event = new Event(calNextDate.getTime(), title, information, tipo);
                 long id = dao.addEvent(event);
                 event.setId(id);
                 events.add(event);
                 calNextDate.add(repeat, 1);
-                //scheduleNotification(getNotification(title, information), calNextDate.getTime().getTime(), 1);
+                scheduleNotification(getNotification(title, information), calNextDate.getTime().getTime(), id);
             } while (calNextDate.getTime().getTime() < finalDate.getTime());
         } else {
             Event event = new Event(date, title, information, tipo);
@@ -182,7 +214,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE dd/MM/yyyy HH:mm");
 
             Toast.makeText(this, simpleDateFormat.format(event.getDate()),Toast.LENGTH_LONG).show();
-            scheduleNotification(getNotification(title, information), date.getTime(), 1);
+            scheduleNotification(getNotification(title, information), date.getTime(), id);
 
         }
         //If succesfully added a new event remove it from the backstack
@@ -193,7 +225,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
     }
 
 
-    private void scheduleNotification(Notification notification, long date , int id ) {
+    private void scheduleNotification(Notification notification, long date , long id ) {
 
         Intent notificationIntent = new Intent(this, NotifReceiver.class);
         notificationIntent.putExtra(NotifReceiver.NOTIFICATION_ID, id);
@@ -204,11 +236,25 @@ public class MainActivity extends Activity implements View.OnClickListener,
         alarmManager.set(AlarmManager.RTC, date, pendingIntent);
     }
 
+    private void cancelNotification(Notification notification, long date , long id ) {
+
+        Intent notificationIntent = new Intent(this, NotifReceiver.class);
+        notificationIntent.putExtra(NotifReceiver.NOTIFICATION_ID, id);
+        notificationIntent.putExtra(NotifReceiver.NOTIFICATION, notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.cancel(pendingIntent);
+    }
+
+
     private Notification getNotification(String title, String information) {
         Notification.Builder builder = new Notification.Builder(this);
         builder.setContentTitle(title);
         builder.setContentText(information);
+        builder.setPriority(Notification.PRIORITY_MAX);
         builder.setSmallIcon(R.drawable.cell_shape);
+        builder.setDefaults(Notification.DEFAULT_SOUND|Notification.DEFAULT_LIGHTS|Notification.DEFAULT_VIBRATE);
         return builder.build();
     }
 
@@ -238,7 +284,9 @@ public class MainActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onSudokuButtonClicked() {
-        //Start the activity with sudoku
+        SudokuFragment fragment = new SudokuFragment();
+        getFragmentManager().beginTransaction().replace(R.id.frame_container, fragment).addToBackStack(null).commit();
+
     }
 
     @Override
@@ -257,15 +305,19 @@ public class MainActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onModifyEvent(Event event) {
-        //modify this event in some way
-        Toast.makeText(this, "Not implemented yet", Toast.LENGTH_LONG).show();
+        oldEvent = event;
+        AddEventFragment addEventFragment = AddEventFragment.newInstance(event);
+        getFragmentManager().beginTransaction().replace(R.id.frame_container, addEventFragment).addToBackStack(null).commit();
     }
 
     @Override
     public void onDeleteEvent(Event event) {
         boolean result = dao.deleteEvent(event.getId());
+        long id = event.getId();
+        long date = event.getDate().getTime();
         if (result) {
             Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+            cancelNotification(getNotification("Canceled notification", "This notification has been canceled."), date, id);
         } else {
             Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show();
         }
@@ -285,6 +337,16 @@ public class MainActivity extends Activity implements View.OnClickListener,
         fragmentManager.popBackStack();
         fragmentManager.popBackStack();
         loadAgendaFragment();
+    }
+
+    @Override
+    public void onEventChecked(int position, boolean isChecked) {
+        Toast.makeText(this, "changed", Toast.LENGTH_LONG).show();
+        Event event = events.get(position);
+        event.setDone(isChecked);
+        boolean result = dao.deleteEvent(event.getId());
+        long id = dao.addEvent(event);
+        event.setId(id);
     }
 }
 

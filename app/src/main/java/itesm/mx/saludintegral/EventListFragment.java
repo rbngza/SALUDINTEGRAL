@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -47,21 +48,36 @@ public class EventListFragment extends Fragment implements View.OnClickListener,
             separators = getArguments().getIntegerArrayList(SEPARATOR_KEY);
             addEventDisabled = getArguments().getBoolean(ADD_ENABLED_KEY);
         }
-        eventAdapter = new EventAdapter(getActivity(), events, separators);
+        eventAdapter = new EventAdapter(getActivity(), events, separators, (MainActivity) getActivity());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         Bundle args = getArguments();
         if (args!=null){
             tipo = args.getInt(TIPO_KEY);
         }
+
         // Inflate the layout for this fragment
+        if (mListener == null) {
+            mListener = (OnFragmentInteractionListener) getActivity();
+        }
+
         View view = inflater.inflate(R.layout.fragment_agenda, container, false);
-        ListView listView = view.findViewById(R.id.list_agenda);
-        listView.setAdapter(eventAdapter);
-        listView.setOnItemClickListener(this);
+
+        if (events.size() == 0){
+            // Show the tevtview letting the user know if he dosen´t have events.
+            TextView tvnoevents = (TextView) view.findViewById(R.id.text_noevents);
+            tvnoevents.setVisibility(View.VISIBLE);
+        }else {
+            // Inflate the layout for this fragment
+            ListView listView = view.findViewById(R.id.list_agenda);
+            listView.setAdapter(eventAdapter);
+            listView.setOnItemClickListener(this);
+        }
+
 
         FloatingActionButton floatingActionButton = view.findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(this);

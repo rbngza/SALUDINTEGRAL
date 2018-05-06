@@ -79,6 +79,9 @@ public class EventDetailFragment extends Fragment implements View.OnClickListene
         tvTitle.setText(event.getTitle());
         tvInformation.setText(event.getInformation());
         tvInformation.setMovementMethod(new ScrollingMovementMethod());
+        if (mListener == null) {
+            mListener = (OnFragmentInteractionListener) getActivity();
+        }
         return view;
     }
 
