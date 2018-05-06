@@ -29,10 +29,10 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,
         EventListFragment.OnFragmentInteractionListener, AddEventFragment.OnEventAddedListener,
         MenuFragment.OnFragmentInteractionListener, ListenerCheckBox,
-        EventDetailFragment.OnFragmentInteractionListener {
+        EventDetailFragment.OnFragmentInteractionListener, SaludIntegralFragment.OnEventAddedListener {
     private EventOperations dao;
     private boolean inHistoryView; //Probably not the optimal solution but I want to reuse the event list fragment and this was the best solution for navigation issues
-    private ArrayList<Event> events;
+    private ArrayList<Event> events = new ArrayList<Event>();
 
     private Intent notificationIntent;
     private PendingIntent pendingIntent;
@@ -133,6 +133,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onEventAddButtonClicked() {
         AddEventFragment addEventFragment = AddEventFragment.newInstance(null, Event.GENERAL);
+        getFragmentManager().beginTransaction().replace(R.id.frame_container, addEventFragment).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void onEventAddFood() {
+        AddEventFragment addEventFragment = AddEventFragment.newInstance(null, Event.FOOD);
+        getFragmentManager().beginTransaction().replace(R.id.frame_container, addEventFragment).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void onEventAddExercise() {
+        AddEventFragment addEventFragment = AddEventFragment.newInstance(null, Event.EXERCISE);
         getFragmentManager().beginTransaction().replace(R.id.frame_container, addEventFragment).addToBackStack(null).commit();
     }
 
@@ -268,7 +280,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onPlanButtonClicked() {
-        //Show helpful information for planning a healthy lifestyle here
+        SaludIntegralFragment saludIntegral = new SaludIntegralFragment();
+        getFragmentManager().beginTransaction().replace(R.id.frame_container, saludIntegral).addToBackStack(null).commit();
     }
 
     @Override
