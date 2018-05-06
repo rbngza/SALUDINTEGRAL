@@ -1,8 +1,6 @@
 package itesm.mx.saludintegral;
 
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.Fragment;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -27,8 +25,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+/**
+ * Fragment for adding different kinds of events, also used when modifying an event by taking the
+ * old event as an argument. Provides the user with an interface for filling in the information
+ * about the event and when filled properly notifies the parent about the action by a listener
+ * interface that has to be implemented.
+ * @author Mattias Strid
+ * @version 1
+ */
 public class AddEventFragment extends Fragment implements Spinner.OnItemSelectedListener, TimePickerDialog.OnTimeSetListener, View.OnClickListener{
-    protected int fromYear;
+    // Variables to keep track of the selected start and end time
+    private int fromYear;
     private int fromMonth;
     private int fromDayOfMonth;
     private int hour;
@@ -38,6 +45,8 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
     private int toDayOfMonth;
     private Date date;
     private Date finalDate;
+
+    // Variables holding the different view elements from the layout xml
     private AutoCompleteTextView etTitle;
     private TextView tvTime;
     private TextView tvDate;
@@ -46,55 +55,90 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
     private Spinner spinnerType;
     private TextView tvFinalDateText;
     private TextView tvFinalDateDisplay;
+
+    // Variable to keep track of what kind of event is being added/modified. Default is general
     private int type = Event.GENERAL;
+
+    // Constants to distinguish between the two date pickers that can be triggered
     private static final int DATE_PICKER_TO = 0;
     private static final int DATE_PICKER_FROM = 1;
+
+    // Keys for passing data
     private static final String TYPE_KEY = "type";
     private static final String EVENT_KEY = "event";
-    private Event event;
-    private boolean isModifying;
 
+    // Boolean to keep track of if the event is a new one or if it's being modified
+    private boolean isModifying;
+    // And the belonging event in case of modification
+    private Event event;
+
+    // The listener used for callbacks
     private OnEventAddedListener mListener;
 
+    // The listeners for setting the dates
     DatePickerDialog.OnDateSetListener from_dateListener, to_dateListener;
 
     public AddEventFragment() {
         // Required empty public constructor
     }
 
+    /**
+     * Instantiation method to create a new fragment. If desired the user can pass an event which
+     * allows for modification of that event, otherwise null is accepted. The user also has to tell
+     * which type of event it is, preferably by using the Event class.
+     * @param event The (optional) event to be modified. Set to null if adding a new one
+     * @param type The type of event, use Event class constants
+     * @return AddEventFragment
+     */
     public static AddEventFragment newInstance(Event event, int type) {
         AddEventFragment fragment = new AddEventFragment();
+        Bundle args = new Bundle();
+        args.putInt(TYPE_KEY, type);
         if (event != null) {
-            Bundle args = new Bundle();
             args.putParcelable(EVENT_KEY, event);
-            args.putInt(TYPE_KEY, type);
-            fragment.setArguments(args);
         }
+        fragment.setArguments(args);
         return fragment;
     }
 
+    /**
+     * When creating the fragment get the arguments containing all the information that was passed
+     * when instantiated.
+     * @param savedInstanceState Bundle containing the information saved in onSaveInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             event = getArguments().getParcelable(EVENT_KEY);
-            isModifying = true;
+            if (event == null) {
+                isModifying = false;
+            } else {
+                isModifying = true;
+            }
             type = getArguments().getInt(TYPE_KEY);
-        } else {
-            event = null;
-            isModifying = false;
         }
     }
 
-    @SuppressLint("SetTextI18n")
+    /**
+     * Method to create the view. Inflates the layout and extracts all the view elements to be used
+     * for the adding/modification of an event, which are handled separately.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        /* On some phones, for an unknown reason, the onAttach method is not called when creating
+         * fragment, so in that case it is created here in a hardcoded fashion, not optimal but works */
         if (mListener == null) {
             mListener = (OnEventAddedListener) getActivity();
         }
+        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_event, container, false);
+        // Get all the view elements
         Button btnSave = view.findViewById(R.id.button_save_event);
         etTitle = view.findViewById(R.id.edit_event_title);
         tvDate = view.findViewById(R.id.text_date);
@@ -102,11 +146,14 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
         etInformation = view.findViewById(R.id.edit_event_information);
         tvFinalDateText = view.findViewById(R.id.text_final_date);
         tvFinalDateDisplay = view.findViewById(R.id.text_display_final_date);
+
+        // By default hide the final date, and only show it when the user want to repeat an event
         tvFinalDateDisplay.setVisibility(View.GONE);
         tvFinalDateText.setVisibility(View.GONE);
         tvFinalDateDisplay.setOnClickListener(this);
         SimpleDateFormat simpleDateFormat;
 
+        // If modifying an event
         if (event != null) {
             date = event.getDate();
             tvFinalDateText.setVisibility(View.INVISIBLE);
@@ -128,7 +175,7 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
             etInformation.setText(event.getInformation());
             TextView tvRepeat = (TextView) view.findViewById(R.id.text_repeat);
             tvRepeat.setVisibility(View.INVISIBLE);
-        } else {
+        } else { // If creating a new event
             date = new Date();
             finalDate = date;
             Calendar cal = Calendar.getInstance();
@@ -161,6 +208,8 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
         spinnerType.setAdapter(adapter);
         spinnerType.setOnItemSelectedListener(this);
         TextView textType = (TextView) view.findViewById(R.id.text_type);
+
+        // If type is not general, don't allow user to modify it
         if (type != 0){
             textType.setText(getResources().getStringArray(R.array.spinner_type)[type]);
             spinnerType.setVisibility(View.GONE);
@@ -201,6 +250,11 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
         return view;
     }
 
+    /**
+     * Method to handle the multiple DatePickerDialogs that can be created
+     * @param id ID of the datePickerDialog to be created
+     * @return DatePickerDialog
+     */
     protected DatePickerDialog onCreateDialog(int id) {
         switch (id) {
             case DATE_PICKER_FROM:
@@ -213,10 +267,15 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
         return null;
     }
 
+    /**
+     * Method to handle clicks on the view elements (specifically on the buttons)
+     * @param v View object
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_save_event:
+                // Check that enough information is provided
                 if (etTitle.getText().toString().length() < 1) {
                     Toast.makeText(getActivity(), R.string.missing_information_save_event, Toast.LENGTH_LONG).show();
                 } else {
@@ -239,6 +298,7 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
                             break;
                     }
                     Toast.makeText(getActivity(), R.string.saving_events, Toast.LENGTH_LONG).show();
+                    // Make a callback to parents
                     mListener.onEventAdded(date, etTitle.getText().toString(), etInformation.getText().toString(), repeat, finalDate, isModifying, type);
                 }
                 break;
@@ -256,8 +316,10 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
         }
     }
 
-
-
+    /**
+     * Method to check that the parents has implemented the interface and create the listener
+     * @param context
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -269,12 +331,22 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
         }
     }
 
+    /**
+     * Method to detach the listener from the parent
+     */
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
+    /**
+     * Method which is called when the user selects a time in the time picker view, and sets the
+     * time for the textView.
+     * @param view
+     * @param hourOfDay
+     * @param minute
+     */
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         this.hour = hourOfDay;
@@ -286,15 +358,24 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
         tvTime.setText(simpleDateFormat.format(this.date));
     }
 
+    /**
+     * Method to handle what happens when the user interacts with the spinners in the fragment.
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()) {
+            // If the user wants to set the repetition they are asked to set a final date
             case R.id.spinner_repeat:
                 if (position != 0) {
                     tvFinalDateText.setVisibility(View.VISIBLE);
                     tvFinalDateDisplay.setVisibility(View.VISIBLE);
                     onCreateDialog(DATE_PICKER_TO).show();
                 } else {
+                    // If the user doesn't want to repeat the event, hide the final date
                     tvFinalDateDisplay.setVisibility(View.GONE);
                     tvFinalDateText.setVisibility(View.GONE);
                 }
@@ -305,11 +386,19 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
         }
     }
 
+    /**
+     * Method that has to be implemented for the spinner OnItemSelected to work. Does nothing.
+     * @param parent
+     */
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         //
     }
 
+    /**
+     * Interface to be implemented by everyone using this fragment. Allows for callbacks to be made
+     * to the parent when an event is added.
+     */
     public interface OnEventAddedListener {
         void onEventAdded(Date date, String title, String information, int repeat, Date finalDate, boolean isModifying, int type);
     }
