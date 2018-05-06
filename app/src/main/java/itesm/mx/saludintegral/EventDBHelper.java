@@ -7,19 +7,24 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 /**
- * Class that manages the database for events. It can create and upgrade/downgrade the database
+ * Class that manages the database for events. It can create and upgrade/downgrade the database.
+ * @author Mattias Strid
+ * @version 1
  */
-
 public class EventDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "EventDB.db";
     private static final int DATABASE_VERSION = 1;
 
     public EventDBHelper(Context context) {
-
         //Create database
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    /**
+     * Method to create tables in the database.
+     *
+     * @param db Database
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_EVENTS_TABLE = "CREATE TABLE " +
@@ -36,15 +41,18 @@ public class EventDBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_EVENTS_TABLE);
     }
 
+    /**
+     * Method to upgrade the database (remove all tables and create them again).
+     *
+     * @param db         Database
+     * @param oldVersion version number old database
+     * @param newVersion version number new database
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         String DELETE_EVENT_TABLE = "DROP TABLE IF EXISTS  " +
                 DataBaseSchema.EventTable.TABLE_NAME;
         db.execSQL(DELETE_EVENT_TABLE);
         onCreate(db);
-    }
-
-    public  void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //actualize database version
     }
 }
