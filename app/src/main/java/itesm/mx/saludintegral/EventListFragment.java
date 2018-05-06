@@ -15,9 +15,11 @@ import java.util.ArrayList;
 
 public class EventListFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener{
     private OnFragmentInteractionListener mListener;
+    static final String TIPO_KEY = "tipo";
     private static final String EVENT_KEY = "events";
     private static final String SEPARATOR_KEY = "separator";
     private static final String ADD_ENABLED_KEY = "addevents";
+    private int tipo;
     private ArrayList<Event> events;
     private ArrayList<Integer> separators;
     private EventAdapter eventAdapter;
@@ -51,6 +53,10 @@ public class EventListFragment extends Fragment implements View.OnClickListener,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Bundle args = getArguments();
+        if (args!=null){
+            tipo = args.getInt(TIPO_KEY);
+        }
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_agenda, container, false);
         ListView listView = view.findViewById(R.id.list_agenda);
@@ -69,7 +75,7 @@ public class EventListFragment extends Fragment implements View.OnClickListener,
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.fab:
-                mListener.onEventAddButtonClicked();
+                mListener.onEventAddButtonClicked(tipo);
         }
     }
 
@@ -98,7 +104,7 @@ public class EventListFragment extends Fragment implements View.OnClickListener,
     }
 
     public interface OnFragmentInteractionListener {
-        void onEventAddButtonClicked();
+        void onEventAddButtonClicked(int tipo);
         void onEventItemClicked(Event event);
     }
 }

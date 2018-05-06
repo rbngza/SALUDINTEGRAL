@@ -27,7 +27,7 @@ import java.util.Date;
 
 public class MainActivity extends Activity implements View.OnClickListener,
         EventListFragment.OnFragmentInteractionListener, AddEventFragment.OnEventAddedListener,
-        MenuFragment.OnFragmentInteractionListener, EventDetailFragment.OnFragmentInteractionListener {
+        MenuFragment.OnFragmentInteractionListener, EventDetailFragment.OnFragmentInteractionListener, SaludIntegral.OnFragmentInteractionListener {
     private EventOperations dao;
     private boolean inHistoryView; //Probably not the optimal solution but I want to reuse the event list fragment and this was the best solution for navigation issues
     private ArrayList<Event> events;
@@ -84,15 +84,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
         startActivity(emergencyCall);
     }
 
-    public void loadAgendaFragment() {
-        events = getEvents();
-        events = EventHelper.eventsFromDate(events, new Date());
-        ArrayList<Integer> separatorSet = new ArrayList<>();
-        OrderedEvents orderedEvents = new OrderedEvents(separatorSet, events);
-        orderedEvents = EventHelper.turnIntoDateSeparatedList(orderedEvents, false);
-        EventListFragment eventListFragment = EventListFragment.newInstance(orderedEvents, false);
-        getFragmentManager().beginTransaction().replace(R.id.frame_container, eventListFragment).addToBackStack(null).commit();
-    }
+
 
     public void loadHistoryFragment() {
         events = getEvents();
@@ -104,6 +96,10 @@ public class MainActivity extends Activity implements View.OnClickListener,
         getFragmentManager().beginTransaction().replace(R.id.frame_container, eventListFragment).addToBackStack(null).commit();
     }
 
+    public void loadSaludFragment() {
+        SaludIntegral saludIntegral = new SaludIntegral();
+        getFragmentManager().beginTransaction().replace(R.id.frame_container, saludIntegral).addToBackStack(null).commit();
+    }
     //Method to get the events from the database
     public ArrayList<Event> getEvents() {
         ArrayList<Event> eventList = dao.getAllEvents();
@@ -115,9 +111,39 @@ public class MainActivity extends Activity implements View.OnClickListener,
     }
 
     @Override
-    public void onEventAddButtonClicked() {
+    public void onEventAddButtonClicked(int tipo) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(AddEventFragment.TIPO_KEY, tipo);
         AddEventFragment addEventFragment = AddEventFragment.newInstance();
+        addEventFragment.setArguments(bundle);
         getFragmentManager().beginTransaction().replace(R.id.frame_container, addEventFragment).addToBackStack(null).commit();
+    }
+
+    public void loadAgendaFragment() {
+        events = getEvents();
+        events = EventHelper.eventsFromDate(events, new Date());
+        Bundle bundle = new Bundle();
+        bundle.putInt(EventListFragment.TIPO_KEY, 0);
+        ArrayList<Integer> separatorSet = new ArrayList<>();
+        OrderedEvents orderedEvents = new OrderedEvents(separatorSet, events);
+        orderedEvents = EventHelper.turnIntoDateSeparatedList(orderedEvents, false);
+        EventListFragment eventListFragment = EventListFragment.newInstance(orderedEvents, false);
+        eventListFragment.setArguments(bundle);
+        getFragmentManager().beginTransaction().replace(R.id.frame_container, eventListFragment).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void onEventListFragment(int tipo) {
+        events = getEvents();
+        events = EventHelper.eventsFromDate(events, new Date());
+        Bundle bundle = new Bundle();
+        bundle.putInt(EventListFragment.TIPO_KEY, tipo);
+        ArrayList<Integer> separatorSet = new ArrayList<>();
+        OrderedEvents orderedEvents = new OrderedEvents(separatorSet, events);
+        orderedEvents = EventHelper.turnIntoDateSeparatedList(orderedEvents, false);
+        EventListFragment fragment = new EventListFragment().newInstance(orderedEvents, false);
+        fragment.setArguments(bundle);
+        getFragmentManager().beginTransaction().replace(R.id.frame_container, fragment).addToBackStack(null).commit();
     }
 
     @Override
@@ -131,7 +157,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
      * the database and the user is returned to the appliance list view.
      */
     @Override
-    public void onEventAdded(Date date, String title, String information, int repeat, Date finalDate) {
+    public void onEventAdded(Date date, String title, String information, int repeat, Date finalDate, int tipo) {
         if (repeat != 0) {
             Calendar finalCal = Calendar.getInstance();
             finalCal.setTime(finalDate);
@@ -141,7 +167,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
             calNextDate.setTime(date);
             //scheduleNotification(getNotification(title, information), date.getTime(), 1);
             do {
-                Event event = new Event(calNextDate.getTime(), title, information);
+                Event event = new Event(calNextDate.getTime(), title, information, tipo);
                 long id = dao.addEvent(event);
                 event.setId(id);
                 events.add(event);
@@ -149,7 +175,7 @@ public class MainActivity extends Activity implements View.OnClickListener,
                 //scheduleNotification(getNotification(title, information), calNextDate.getTime().getTime(), 1);
             } while (calNextDate.getTime().getTime() < finalDate.getTime());
         } else {
-            Event event = new Event(date, title, information);
+            Event event = new Event(date, title, information, tipo);
             long id = dao.addEvent(event);
             event.setId(id);
             events.add(event);
@@ -224,6 +250,9 @@ public class MainActivity extends Activity implements View.OnClickListener,
     @Override
     public void onPlanButtonClicked() {
         //Show helpful information for planning a healthy lifestyle here
+        inHistoryView = true;
+        loadSaludFragment();
+
     }
 
     @Override

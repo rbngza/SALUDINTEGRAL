@@ -40,11 +40,11 @@ public class Event implements Parcelable, Comparable{
         isDone = false;
     }
 
-    public Event(Date date, String title, String information) {
+    public Event(Date date, String title, String information, int tipo) {
         this.date = date;
         this.title = title;
         this.information = information;
-        this.type = GENERAL;
+        this.type = tipo;
         this.isDone = false;
     }
 

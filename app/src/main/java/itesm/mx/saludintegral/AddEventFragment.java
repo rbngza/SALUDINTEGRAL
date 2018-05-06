@@ -35,6 +35,7 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
     private int toYear;
     private int toMonth;
     private int toDayOfMonth;
+    private int tipo;
     private Date date;
     private Date finalDate;
     private AutoCompleteTextView etTitle;
@@ -46,6 +47,7 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
     private TextView tvFinalDateDisplay;
     private static final int DATE_PICKER_TO = 0;
     private static final int DATE_PICKER_FROM = 1;
+    static final String TIPO_KEY = "tipo";
 
     private OnEventAddedListener mListener;
 
@@ -69,6 +71,10 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Bundle args = getArguments();
+        if (args!=null){
+            tipo = args.getInt(TIPO_KEY);
+        }
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_event, container, false);
         Button btnSave = view.findViewById(R.id.button_save_event);
@@ -180,7 +186,7 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
                             break;
                     }
                     Toast.makeText(getActivity(), R.string.saving_events, Toast.LENGTH_LONG).show();
-                    mListener.onEventAdded(date, etTitle.getText().toString(), etInformation.getText().toString(), repeat, finalDate);
+                    mListener.onEventAdded(date, etTitle.getText().toString(), etInformation.getText().toString(), repeat, finalDate, tipo);
                 }
                 break;
             case R.id.text_date:
@@ -245,6 +251,6 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
     }
 
     public interface OnEventAddedListener {
-        void onEventAdded(Date date, String title, String information, int repeat, Date finalDate);
+        void onEventAdded(Date date, String title, String information, int repeat, Date finalDate, int tipo);
     }
 }
