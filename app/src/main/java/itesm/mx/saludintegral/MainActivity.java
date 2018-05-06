@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         EventListFragment eventListFragment = EventListFragment.newInstance(orderedEvents, true);
         getFragmentManager().beginTransaction().replace(R.id.frame_container, eventListFragment).addToBackStack(null).commit();
     }
-
+    //asdasd
     //Method to get the events from the database
     public ArrayList<Event> getEvents() {
         ArrayList<Event> eventList = dao.getAllEvents();
