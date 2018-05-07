@@ -18,22 +18,40 @@ import java.util.Date;
 
 /**
  * Adapter class to display events in a list.
+ * @author Mattias Strid
+ * @version 1
  */
-
 public class EventAdapter extends ArrayAdapter<Event> {
     private ArrayList<Integer> separators;
     private ListenerCheckBox mListenerCheckBox;
 
+    /**
+     * Constructor to call superclass and set the instant variables
+     * @param context
+     * @param events List of events including separators
+     * @param separators list of rows that says the date and not contain an actual event
+     * @param listenerCheckBox Pass who wants to listen to changes in the checkbox
+     */
     public EventAdapter(Context context, ArrayList<Event> events, ArrayList<Integer> separators, ListenerCheckBox listenerCheckBox) {
         super(context, 0, events);
         this.separators = separators;
         mListenerCheckBox = listenerCheckBox;
     }
 
+    
+    /**
+     * Method to create the view for an event and put it in the list.
+     * @// TODO: 2018-05-06 Make it recyclable
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @NonNull
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         final Event event = getItem(position);
+        // Check if divider or normal event
         if (!separators.contains(position)) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_event, parent, false);
 
@@ -76,6 +94,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
             Calendar tomorrow = Calendar.getInstance();
             tomorrow.setTime(new Date());
             tomorrow.add(Calendar.DAY_OF_YEAR, 1);
+            //Display the date as default, if today or tomorrow display a text instead
             if (today.get(Calendar.YEAR) == dateEvent.get(Calendar.YEAR) &&
                     today.get(Calendar.DAY_OF_YEAR) == dateEvent.get(Calendar.DAY_OF_YEAR)) {
                 tvDate.setText(R.string.today);

@@ -7,10 +7,20 @@ import java.util.Date;
 import java.util.TreeSet;
 
 /**
- * Created by matt on 2018-04-15.
+ * Class with static methods to: create the event lists including the separators for displaying the
+ * date in the agenda and history views, discarding events until a specific time, or discarding from
+ * a specific time.
+ * @author Mattias Strid
+ * @version 1
  */
-
 public class EventHelper {
+    /**
+     * Creates the event list given the parameters
+     * @param orderedEvents takes an ordered event object containing information about the events
+     *                      and the separators
+     * @param reversed boolean to sort the list from old to new, or new to old
+     * @return OrderedEvents object with all information
+     */
     public static OrderedEvents turnIntoDateSeparatedList(OrderedEvents orderedEvents, boolean reversed) {
         ArrayList<Event> events = orderedEvents.getEvents();
         ArrayList<Integer> separatorSet = orderedEvents.getSeparatorSet();
@@ -44,6 +54,12 @@ public class EventHelper {
         return new OrderedEvents(separatorSet, events);
     }
 
+    /**
+     * Returns a list of events from a specific date
+     * @param events
+     * @param date
+     * @return
+     */
     public static ArrayList<Event> eventsFromDate(ArrayList<Event> events, Date date){
         ArrayList<Event> eventsFromDate = new ArrayList<>();
         for (int i = 0; i < events.size(); i++) {
@@ -55,6 +71,12 @@ public class EventHelper {
         return eventsFromDate;
     }
 
+    /**
+     * Returns a list of events to a specific date
+     * @param events
+     * @param date
+     * @return
+     */
     public static ArrayList<Event> eventsToDate(ArrayList<Event> events, Date date){
         ArrayList<Event> eventsFromDate = new ArrayList<>();
         for (int i = 0; i < events.size(); i++) {
