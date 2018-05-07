@@ -129,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         OrderedEvents orderedEvents = new OrderedEvents(separatorSet, events);
         orderedEvents = EventHelper.turnIntoDateSeparatedList(orderedEvents, false);
         EventListFragment eventListFragment = EventListFragment.newInstance(orderedEvents, false, searchType);
+        this.events = events;
         getFragmentManager().beginTransaction().replace(R.id.frame_container, eventListFragment).addToBackStack(null).commit();
     }
 
@@ -144,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         OrderedEvents orderedEvents = new OrderedEvents(separatorSet, events);
         orderedEvents = EventHelper.turnIntoDateSeparatedList(orderedEvents, true);
         EventListFragment eventListFragment = EventListFragment.newInstance(orderedEvents, true, searchType);
+        this.events= events;
         getFragmentManager().beginTransaction().replace(R.id.frame_container, eventListFragment).addToBackStack(null).commit();
     }
 
