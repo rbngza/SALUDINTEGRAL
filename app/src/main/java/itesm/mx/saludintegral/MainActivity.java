@@ -262,8 +262,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 long id = dao.addEvent(event);
                 event.setId(id);
                 events.add(event);
-                calNextDate.add(repeat, 1);
                 scheduleNotification(getNotification(title, information), calNextDate.getTime().getTime(), id);
+                calNextDate.add(repeat, 1);
             } while (calNextDate.getTime().getTime() < finalDate.getTime());
         } else {
             Event event = new Event(date, title, information, type);
@@ -274,7 +274,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             Toast.makeText(this, simpleDateFormat.format(event.getDate()),Toast.LENGTH_LONG).show();
             scheduleNotification(getNotification(title, information), date.getTime(), id);
-
         }
         //If succesfully added a new event remove it from the backstack
         FragmentManager manager = getFragmentManager();
