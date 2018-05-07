@@ -174,6 +174,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getFragmentManager().beginTransaction().replace(R.id.frame_container, addEventFragment).addToBackStack(null).commit();
     }
 
+    @Override
+    public void onPillButtonClicked() {
+        AddEventFragment addEventFragment = AddEventFragment.newInstance(null, Event.PILL);
+        getFragmentManager().beginTransaction().replace(R.id.frame_container, addEventFragment).addToBackStack(null).commit();
+    }
+
     /**
      * Method to handle clicks on the add exercise button in the plan salud integral fragment.
      */
