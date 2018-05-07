@@ -87,21 +87,21 @@
                 android:layout_margin="5dp"
                 android:textSize="22sp"
                 android:id="@+id/btn_modify"
-                android:text="Modify"/>
+                android:text="@string/modify"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:textSize="22sp"
                 android:id="@+id/btn_delete"
-                android:text="Delete"/>
+                android:text="@string/delete"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:textSize="22sp"
                 android:id="@+id/btn_ok"
-                android:text="Ok"/>
+                android:text="@string/ok"/>
 
         </LinearLayout>
     </RelativeLayout>
