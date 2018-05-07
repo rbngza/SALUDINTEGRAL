@@ -24,4 +24,9 @@
         android:layout_below="@+id/sudokuGridView"
         android:numColumns="3"></itesm.mx.saludintegral.ButtonsGridView>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Selecciona la casilla y presiona el boton deseado."/>
+
 </RelativeLayout>
