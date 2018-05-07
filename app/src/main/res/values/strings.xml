@@ -21,7 +21,7 @@
     <string name="s_ejercicios2">- Ej. Equilibrio \n- Estirar \n- Bailar \n- Bandas Elasticas \n- Pesas \n</string>
     <string name="s_mental1">- Sudoku \n- Leer \n- Sumas y Restas \n- Crucigramas \n- Memorama \n</string>
     <string name="s_mental2">- Pictionary \n- Videojuegos \n- Adivina el animal \n- Acertijos \n-  Formar palabras aleatorias\n</string>
-    <string name="no_events">No hay eventos para mostrar, presiona el botón de abajo para agregar un evento.</string>
+    <string name="no_events">No hay eventos para mostrar, presiona el botón de abajo en la vista de agenda para agregar un evento.</string>
 
     <string-array name="spinner_repeat">
         <item>Único</item>
@@ -42,11 +42,12 @@
         <item>Alimentos</item>
         <item>Actividad Física</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="ConfirmMessage">Usted está seguro/a?</string>
     <string name="yes">Sí</string>
     <string name="no">No</string>
     <string name="alimentos">Alimentos</string>
-    <string name="addevent">+Event</string>
+    <string name="addevent">+Evento</string>
+    <string name="salud_fisica">Salud Física</string>
+    <string name="salud_mental">Salud Mental</string>
+    <string name="type">Tipo:</string>
 </resources>

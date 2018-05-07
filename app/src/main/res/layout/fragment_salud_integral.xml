@@ -53,12 +53,26 @@
                 </LinearLayout>
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/TituloEjercicios"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:text="Salud Fisica"
-                android:textSize="20dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/TituloEjercicios"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/salud_fisica"
+                    android:layout_centerVertical="true"
+                    android:textSize="24sp" />
+                <Button
+                    android:id="@+id/btn_ejercicios"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/addevent" />
+
+            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -71,34 +85,42 @@
                     <TextView
                         android:id="@+id/tv_Ejercicios"
                         android:layout_width="wrap_content"
-                        android:layout_height="100dp"
+                        android:layout_height="wrap_content"
                         android:text="@string/s_ejercicios1" />
 
                     <TextView
                         android:id="@+id/tv_Ejercicios2"
                         android:layout_width="wrap_content"
-                        android:layout_height="100dp"
+                        android:layout_height="wrap_content"
                         android:text="@string/s_ejercicios2" />
                 </LinearLayout>
-
-                <Button
-                    android:id="@+id/btn_ejercicios"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:text="+Evento" />
             </RelativeLayout>
-
-            <TextView
-                android:id="@+id/TituloMental"
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:text="Salud Mental"
-                android:textSize="20dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/TituloMental"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/salud_mental"
+                    android:layout_centerVertical="true"
+                    android:textSize="24sp" />
+                <Button
+                    android:id="@+id/btn_mental"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/addevent" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -107,22 +129,15 @@
                     <TextView
                         android:id="@+id/tv_Mentales1"
                         android:layout_width="wrap_content"
-                        android:layout_height="100dp"
+                        android:layout_height="wrap_content"
                         android:text="@string/s_mental1" />
 
                     <TextView
                         android:id="@+id/tv_Mentales2"
                         android:layout_width="wrap_content"
-                        android:layout_height="100dp"
+                        android:layout_height="wrap_content"
                         android:text="@string/s_mental2" />
                 </LinearLayout>
-                <Button
-                    android:id="@+id/btn_mental"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:text="+Evento" />
-
             </RelativeLayout>
 
         </LinearLayout>
