@@ -68,6 +68,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                0);
     }
 
+    /**
+     * Method for handling the click of the emergency button.
+     */
     @Override
     public void onClick(View v){
         switch (v.getId()) {
@@ -79,6 +82,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * Method for loading the menu layout.
+     */
     public void loadMenuFragment(){
         Fragment fragment = new MenuFragment();
         android.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -86,6 +92,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         transaction.commit();
     }
 
+    /**
+     * Method for handling an emergency call, creates an intent to call to 911.
+     */
     @SuppressLint("MissingPermission")
     public void emergencyCall() {
         Intent emergencyCall = new Intent(Intent.ACTION_CALL);
@@ -259,7 +268,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loadAgendaFragment(events, 0);
     }
 
-
+    /**
+     * Method for scheduling the notification, need to send the notification, date and id.
+     */
     private void scheduleNotification(Notification notification, long date , long id ) {
 
         Intent notificationIntent = new Intent(this, NotifReceiver.class);
@@ -271,6 +282,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         alarmManager.set(AlarmManager.RTC, date, pendingIntent);
     }
 
+    /**
+     * Method for canceling the notification according to the id that you send
+     */
     private void cancelNotification(Notification notification, long date , long id ) {
 
         Intent notificationIntent = new Intent(this, NotifReceiver.class);
@@ -282,7 +296,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         alarmManager.cancel(pendingIntent);
     }
 
-
+    /**
+     * Method for creating the notification according to the info that you send to the method.
+     */
     private Notification getNotification(String title, String information) {
         Notification.Builder builder = new Notification.Builder(this);
         builder.setContentTitle(title);
