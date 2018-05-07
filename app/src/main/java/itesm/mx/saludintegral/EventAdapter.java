@@ -1,6 +1,7 @@
 package itesm.mx.saludintegral;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -56,8 +57,8 @@ public class EventAdapter extends ArrayAdapter<Event> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_event, parent, false);
 
             TextView tvInformation = (TextView) convertView.findViewById(R.id.text_information);
-            TextView tvTime = (TextView) convertView.findViewById(R.id.text_time);
-            TextView tvTitle = (TextView) convertView.findViewById(R.id.text_title);
+            final TextView tvTime = (TextView) convertView.findViewById(R.id.text_time);
+            final TextView tvTitle = (TextView) convertView.findViewById(R.id.text_title);
 
             SimpleDateFormat simpleDateFormat =
                     new SimpleDateFormat("HH:mm");
@@ -71,6 +72,14 @@ public class EventAdapter extends ArrayAdapter<Event> {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     int eventPosition = position;
                     int counter = 0;
+                    Date now = new Date();
+                    if (!isChecked && event.getDate().getTime() < now.getTime()){
+                        tvTime.setTextColor(Color.RED);
+                        tvTitle.setTextColor(Color.RED);
+                    } else {
+                        tvTime.setTextColor(Color.BLACK);
+                        tvTitle.setTextColor(Color.BLACK);
+                    }
                     try {
                         while (separators.get(counter) < position) {
                             eventPosition--;
@@ -82,6 +91,15 @@ public class EventAdapter extends ArrayAdapter<Event> {
                     mListenerCheckBox.onEventChecked(eventPosition, isChecked);
                 }
             });
+            Date now = new Date();
+            if (!event.isDone() && event.getDate().getTime() < now.getTime()){
+                tvTime.setTextColor(Color.RED);
+                tvTitle.setTextColor(Color.RED);
+            } else {
+                tvTime.setTextColor(Color.BLACK);
+                tvTitle.setTextColor(Color.BLACK);
+            }
+            tvInformation.setTextColor(Color.BLACK);
             return convertView;
         } else {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_date, parent, false);
