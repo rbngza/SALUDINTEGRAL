@@ -59,6 +59,8 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
     // Variable to keep track of what kind of event is being added/modified. Default is general
     private int type = Event.GENERAL;
 
+    private int position;
+
     // Constants to distinguish between the two date pickers that can be triggered
     private static final int DATE_PICKER_TO = 0;
     private static final int DATE_PICKER_FROM = 1;
@@ -259,10 +261,17 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
         switch (id) {
             case DATE_PICKER_FROM:
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), from_dateListener, fromYear, fromMonth, fromDayOfMonth);
-                datePickerDialog.setTitle("Choose end date");
                 return datePickerDialog;
             case DATE_PICKER_TO:
-                return new DatePickerDialog(getActivity(), to_dateListener, toYear, toMonth, toDayOfMonth);
+                DatePickerDialog datePickerDialogTo = new DatePickerDialog(getActivity(), to_dateListener, toYear, toMonth, toDayOfMonth);
+                datePickerDialogTo.setTitle("Choose end date");
+                if (position <=2) {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(date);
+                    calendar.add(Calendar.YEAR, 3);
+                    datePickerDialogTo.getDatePicker().setMaxDate(calendar.getTime().getTime());
+                }
+                return datePickerDialogTo;
         }
         return null;
     }
@@ -371,6 +380,7 @@ public class AddEventFragment extends Fragment implements Spinner.OnItemSelected
             // If the user wants to set the repetition they are asked to set a final date
             case R.id.spinner_repeat:
                 if (position != 0) {
+                    this.position = position;
                     tvFinalDateText.setVisibility(View.VISIBLE);
                     tvFinalDateDisplay.setVisibility(View.VISIBLE);
                     onCreateDialog(DATE_PICKER_TO).show();
