@@ -15,6 +15,8 @@ public class NotifReceiver extends BroadcastReceiver {
 
     }
 
+
+
     /**
      * Method for handling the notifications received.
      */

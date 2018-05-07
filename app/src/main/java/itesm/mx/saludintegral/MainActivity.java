@@ -318,6 +318,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Notification.Builder builder = new Notification.Builder(this);
         builder.setContentTitle(title);
         builder.setContentText(information);
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
+        builder.setContentIntent(pendingIntent);
         builder.setPriority(Notification.PRIORITY_MAX);
         builder.setSmallIcon(R.drawable.cell_shape);
         builder.setDefaults(Notification.DEFAULT_SOUND|Notification.DEFAULT_LIGHTS|Notification.DEFAULT_VIBRATE);
