@@ -15,6 +15,9 @@ public class NotifReceiver extends BroadcastReceiver {
 
     }
 
+    /**
+     * Method for handling the notifications received.
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
 
