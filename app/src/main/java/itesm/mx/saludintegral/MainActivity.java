@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -239,6 +240,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public void onEventAdded(Date date, String title, String information, int repeat, Date finalDate, boolean isModifying, int type) {
+        View view = getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
         if (isModifying) {
             boolean result = dao.deleteEvent(oldEvent.getId());
             long id = oldEvent.getId();
