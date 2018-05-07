@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <ImageButton
-                android:id="@+id/btn_agenda"
+                android:id="@+id/btn_plan"
                 android:layout_width="160dp"
                 android:layout_height="160dp"
                 android:layout_marginBottom="8dp"
@@ -23,17 +23,17 @@
                 android:background="#9eec00"
                 android:padding="20dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/iconoagenda"
-                android:text="@string/btn_agenda"
+                android:src="@drawable/iconosalud"
+                android:text="@string/btn_plan"
                 android:textSize="18sp"
                 android:tint="@android:color/white"
                 app:layout_constraintBottom_toTopOf="@+id/btn_sudoku"
-                app:layout_constraintEnd_toStartOf="@+id/btn_history"
+                app:layout_constraintEnd_toStartOf="@+id/btn_agenda"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-                android:id="@+id/btn_history"
+                android:id="@+id/btn_agenda"
                 android:layout_width="160dp"
                 android:layout_height="160dp"
                 android:layout_marginBottom="8dp"
@@ -44,13 +44,13 @@
                 android:background="@android:color/holo_blue_bright"
                 android:padding="20dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/iconohistorial"
-                android:text="@string/btn_history"
+                android:src="@drawable/iconoagenda"
+                android:text="@string/btn_agenda"
                 android:textSize="18sp"
                 android:tint="@android:color/white"
-                app:layout_constraintBottom_toTopOf="@+id/btn_plan"
+                app:layout_constraintBottom_toTopOf="@+id/btn_pill"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/btn_agenda"
+                app:layout_constraintStart_toEndOf="@+id/btn_plan"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
@@ -68,12 +68,12 @@
                 android:text="@string/btn_sudoku"
                 android:textSize="16sp"
                 android:tint="@android:color/white"
-                app:layout_constraintEnd_toStartOf="@+id/btn_plan"
+                app:layout_constraintEnd_toStartOf="@+id/btn_pill"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_agenda" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_plan" />
 
             <ImageButton
-                android:id="@+id/btn_plan"
+                android:id="@+id/btn_pill"
                 android:layout_width="160dp"
                 android:layout_height="160dp"
                 android:layout_marginEnd="8dp"
@@ -83,16 +83,15 @@
                 android:background="@android:color/holo_purple"
                 android:padding="20dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/iconosalud"
-                android:text="@string/btn_plan"
+                android:src="@drawable/iconopill"
                 android:tint="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.716"
                 app:layout_constraintStart_toEndOf="@+id/btn_sudoku"
-                app:layout_constraintTop_toBottomOf="@+id/btn_history" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_agenda" />
 
             <ImageButton
-                android:id="@+id/btn_pill"
+                android:id="@+id/btn_history"
                 android:layout_width="160dp"
                 android:layout_height="160dp"
                 android:layout_marginBottom="8dp"
@@ -101,7 +100,7 @@
                 android:background="@android:color/holo_blue_dark"
                 android:padding="20dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/iconopill"
+                android:src="@drawable/iconohistorial"
                 android:text="@string/btn_history"
                 android:textSize="18sp"
                 android:tint="@android:color/white"
@@ -116,14 +115,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginStart="67dp"
+                android:layout_marginStart="37dp"
                 android:layout_marginTop="1dp"
-                android:text="Agenda"
+                android:text="Salud integral"
                 app:layout_constraintBottom_toTopOf="@+id/btn_sudoku"
                 app:layout_constraintEnd_toStartOf="@+id/textView2"
                 app:layout_constraintHorizontal_bias="0.114"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_agenda"
+                app:layout_constraintTop_toBottomOf="@+id/btn_plan"
                 app:layout_constraintVertical_bias="1.0" />
 
             <TextView
@@ -132,10 +131,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1dp"
                 android:layout_marginEnd="80dp"
-                android:text="Historial"
-                app:layout_constraintBottom_toTopOf="@+id/btn_plan"
+                android:text="Agenda"
+                app:layout_constraintBottom_toTopOf="@+id/btn_pill"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_history"
+                app:layout_constraintTop_toBottomOf="@+id/btn_agenda"
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
@@ -159,10 +158,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="144dp"
                 android:layout_marginEnd="64dp"
-                android:text="Salud Integral"
+                android:text="Medicamentos"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_plan"
+                app:layout_constraintTop_toBottomOf="@+id/btn_pill"
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
@@ -171,11 +170,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="10dp"
-                android:text="Medicamentos"
+                android:text="Historial"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_pill" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_history" />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>
