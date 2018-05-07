@@ -50,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
         Button btnEmergencia = (Button) findViewById(R.id.btn_emergencia);
         btnEmergencia.setOnClickListener(this);
 
@@ -71,6 +74,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * Method for handling the click of the emergency button.
      */
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
     @Override
     public void onClick(View v){
         switch (v.getId()) {

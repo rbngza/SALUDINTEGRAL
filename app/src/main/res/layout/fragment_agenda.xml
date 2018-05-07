@@ -43,5 +43,5 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="23dp"
         android:focusable="false"
-        android:src="@mipmap/ic_launcher"/>
+        android:src="@mipmap/ic_add_white_24dp"/>
 </FrameLayout>
