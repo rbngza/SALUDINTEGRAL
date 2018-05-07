@@ -50,4 +50,8 @@
     <string name="salud_fisica">Salud Física</string>
     <string name="salud_mental">Salud Mental</string>
     <string name="type">Tipo:</string>
+    <string name="search">Buscar:</string>
+    <string name="modify">Modificar</string>
+    <string name="delete">Borrar</string>
+    <string name="ok">Ok</string>
 </resources>
