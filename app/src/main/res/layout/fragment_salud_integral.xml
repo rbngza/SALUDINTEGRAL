@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:text="+Event" />
+                android:text="+Evento" />
         </RelativeLayout>
 
         <TextView
@@ -111,6 +111,13 @@
                     android:layout_height="100dp"
                     android:text="@string/s_mental2" />
             </LinearLayout>
+            <Button
+                android:id="@+id/btn_mental"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="+Evento" />
+
 
         </RelativeLayout>
 

@@ -203,6 +203,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * @param event Event that was clicked
      */
     @Override
+    public void onEventAddMental() {
+        AddEventFragment addEventFragment = AddEventFragment.newInstance(null, Event.GENERAL);
+        getFragmentManager().beginTransaction().replace(R.id.frame_container, addEventFragment).addToBackStack(null).commit();
+    }
+
+    @Override
     public void onEventItemClicked(Event event) {
         EventDetailFragment eventDetailFragment = EventDetailFragment.newInstance(event);
         getFragmentManager().beginTransaction().replace(R.id.frame_container, eventDetailFragment).addToBackStack(null).commit();
