@@ -208,8 +208,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /**
-     * Method to handle clicks on a specific event in a list. Shows a detailed view.
-     * @param event Event that was clicked
+     * Method to handle clicks on the add event button for mental type
      */
     @Override
     public void onEventAddMental() {
