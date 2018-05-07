@@ -77,6 +77,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public boolean onSupportNavigateUp() {
+        View view = getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
         onBackPressed();
         return true;
     }
