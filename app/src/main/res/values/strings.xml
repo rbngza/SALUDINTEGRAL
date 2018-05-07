@@ -47,4 +47,6 @@
     <string name="ConfirmMessage">Usted está seguro/a?</string>
     <string name="yes">Sí</string>
     <string name="no">No</string>
+    <string name="alimentos">Alimentos</string>
+    <string name="addevent">+Event</string>
 </resources>

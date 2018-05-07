@@ -50,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
         Button btnEmergencia = (Button) findViewById(R.id.btn_emergencia);
         btnEmergencia.setOnClickListener(this);
 
@@ -66,6 +69,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ActivityCompat.requestPermissions(MainActivity.this,
                 new String[]{Manifest.permission.CALL_PHONE},
                0);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override
