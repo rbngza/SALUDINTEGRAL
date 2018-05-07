@@ -30,6 +30,9 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         ImageButton btnPlan = (ImageButton) view.findViewById(R.id.btn_plan);
         btnPlan.setOnClickListener(this);
 
+        ImageButton btnPill = (ImageButton) view.findViewById(R.id.btn_pill);
+        btnPill.setOnClickListener(this);
+
         if (mListener == null) {
             mListener = (OnFragmentInteractionListener) getActivity();
         }
@@ -53,6 +56,9 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.btn_plan:
                 mListener.onPlanButtonClicked();
+                break;
+            case R.id.btn_pill:
+                mListener.onPillButtonClicked();
                 break;
             default:
                 break;
@@ -81,5 +87,6 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         void onSudokuButtonClicked();
         void onHistoryButtonClicked();
         void onPlanButtonClicked();
+        void onPillButtonClicked();
     }
 }
