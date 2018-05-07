@@ -41,7 +41,9 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
     }
 
 
-
+    /**
+     * Method for handling clicks to buttons in menu fragment.
+     */
     @Override
     public void onClick(View v){
         switch (v.getId()) {
@@ -65,6 +67,9 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+    /**
+     * Method for OnFragmentInteractionListener.
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -82,6 +87,9 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         mListener = null;
     }
 
+    /**
+     * Method for creating the fucntions to every button, this is used by the mListener.
+     */
     public interface OnFragmentInteractionListener {
         void onAgendaButtonClicked();
         void onSudokuButtonClicked();
