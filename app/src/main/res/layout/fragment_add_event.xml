@@ -112,7 +112,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp">
+                android:layout_margin="10dp">
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -120,6 +120,15 @@
                     android:id="@+id/button_save_event"
                     android:textSize="20sp"
                     android:layout_centerInParent="true"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="La fecha se selecciona presionando la fecha de arriba. \nLa hora se selecciona presionando la hora. "/>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
