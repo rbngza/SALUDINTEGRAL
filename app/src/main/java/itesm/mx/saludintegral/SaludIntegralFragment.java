@@ -29,7 +29,7 @@ public class SaludIntegralFragment extends Fragment implements View.OnClickListe
         Button btnMental = (Button) v.findViewById(R.id.btn_mental);
         btnMental.setOnClickListener(this);
 
-
+//FANTOMTEXT
         return v;
     }
 
