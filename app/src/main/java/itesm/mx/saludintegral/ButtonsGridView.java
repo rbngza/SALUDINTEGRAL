@@ -11,6 +11,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 
+/**
+ * Class that contains the grid for the buttons in the Sudoku
+ * @author Juan Pablo García
+ * @version 1
+ */
 public class ButtonsGridView extends GridView{
 
 
@@ -30,6 +35,7 @@ public class ButtonsGridView extends GridView{
             this.context = context;
         }
 
+
         @Override
         public int getCount() {
             return 10;
@@ -45,6 +51,7 @@ public class ButtonsGridView extends GridView{
             return position;
         }
 
+        //Displays the buttons
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View v = convertView;

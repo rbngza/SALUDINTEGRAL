@@ -3,6 +3,12 @@ package itesm.mx.saludintegral;
 import android.content.Context;
 import android.view.View;
 
+/**
+ * Class that manages the database for events. It can create and upgrade/downgrade the database.
+ * @author Juan Pablo García
+ * @version 1
+ */
+
 public class BaseSudokuCell extends View{
 
 

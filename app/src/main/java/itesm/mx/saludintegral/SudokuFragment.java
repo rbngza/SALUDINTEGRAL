@@ -6,8 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * Class that makes the Sudoku open in a fragment
+ * @author Juan Pablo García
+ * @version 1
+ */
 public class SudokuFragment extends Fragment {
 
+    //
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

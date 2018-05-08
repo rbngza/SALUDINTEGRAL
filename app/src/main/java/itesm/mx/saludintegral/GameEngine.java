@@ -4,6 +4,12 @@ import itesm.mx.saludintegral.GameGrid;
 
 import android.content.Context;
 
+/**
+ * Class that manages the database for events. It can create and upgrade/downgrade the database.
+ * @author Juan Pablo García
+ * @version 1
+ */
+
 public class GameEngine {
     private static GameEngine instance;
 
@@ -20,6 +26,7 @@ public class GameEngine {
         return instance;
     }
 
+    //Creates the grid
     public void createGrid( Context context ){
         int[][] Sudoku = SudokuGenerator.getInstance().generateGrid();
         Sudoku = SudokuGenerator.getInstance().removeElements(Sudoku);
@@ -27,6 +34,7 @@ public class GameEngine {
         grid.setGrid(Sudoku);
     }
 
+    //returns the grid
     public GameGrid getGrid(){
         return grid;
     }
@@ -36,6 +44,7 @@ public class GameEngine {
         selectedPosY = y;
     }
 
+    //sets numbers into grid
     public void setNumber( int number ){
         if( selectedPosX != -1 && selectedPosY != -1 ){
             grid.setItem(selectedPosX,selectedPosY,number);

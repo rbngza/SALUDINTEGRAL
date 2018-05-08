@@ -3,6 +3,11 @@ package itesm.mx.saludintegral;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Class that generates the Grid of the Sudoku
+ * @author Juan Pablo García
+ * @version 1
+ */
 public class SudokuGenerator {
     private static SudokuGenerator instance;
 
@@ -18,6 +23,8 @@ public class SudokuGenerator {
         }
         return instance;
     }
+
+    // Gives back the generated Sudoku Grid
 
     public int[][] generateGrid(){
         int[][] Sudoku = new int[9][9];
@@ -59,6 +66,7 @@ public class SudokuGenerator {
         return Sudoku;
     }
 
+    //Removes the amount of numbers in the cells indicated inside the while, the numbers will be removed from random positions in the Grid
     public int[][] removeElements( int[][] Sudoku ){
         int i = 0;
 
@@ -75,6 +83,7 @@ public class SudokuGenerator {
 
     }
 
+    //Clears the numbers from the grid
     private void clearGrid(int [][] Sudoku){
         Available.clear();
 
@@ -92,6 +101,7 @@ public class SudokuGenerator {
         }
     }
 
+    //When generating the numbers, it checks that there are no repeated ones in the same column or row
     private boolean checkConflict( int[][] Sudoku , int currentPos , final int number){
         int xPos = currentPos % 9;
         int yPos = currentPos / 9;
@@ -103,7 +113,7 @@ public class SudokuGenerator {
         return false;
     }
 
-
+     //Checks for conflict in the rows of the grid
     private boolean checkHorizontalConflict( final int[][] Sudoku , final int xPos , final int yPos , final int number ){
         for( int x = xPos - 1; x >= 0 ; x-- ){
             if( number == Sudoku[x][yPos]){
@@ -113,7 +123,7 @@ public class SudokuGenerator {
 
         return false;
     }
-
+    //checks for conflict in the columns of the grid
     private boolean checkVerticalConflict( final int[][] Sudoku , final int xPos , final int yPos , final int number ){
         for( int y = yPos - 1; y >= 0 ; y-- ){
             if( number == Sudoku[xPos][y] ){
@@ -124,6 +134,8 @@ public class SudokuGenerator {
         return false;
     }
 
+
+    //Checks for conflict inside a specific region, so the comparisons are by parts and not the whole grid
     private boolean checkRegionConflict( final int[][] Sudoku , final int xPos , final int yPos , final int number ){
         int xRegion = xPos / 3;
         int yRegion = yPos / 3;

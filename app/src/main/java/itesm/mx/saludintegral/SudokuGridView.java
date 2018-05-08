@@ -14,6 +14,11 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.Toast;
 
+/**
+ * Class that manages the correct display of the generated grid in the device
+ * @author Juan Pablo García
+ * @version 1
+ */
 public class SudokuGridView extends GridView{
 
     private final Context context;
@@ -39,11 +44,13 @@ public class SudokuGridView extends GridView{
         });
     }
 
+    //Measures the space to display the grid
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, widthMeasureSpec);
     }
 
+    //Adapter that gets the position of the items in the Grid and how many items are displayed
     class SudokuGridViewAdapter extends BaseAdapter{
 
         private Context context;

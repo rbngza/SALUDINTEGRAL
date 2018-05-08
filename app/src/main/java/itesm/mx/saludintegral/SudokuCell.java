@@ -8,6 +8,11 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
 
+/**
+ * Class that manages the looks of the generated grid for the sudoku
+ * @author Juan Pablo Gacrcía
+ * @version 1
+ */
 public class SudokuCell extends BaseSudokuCell {
 
     private Paint mPaint;
@@ -19,6 +24,7 @@ public class SudokuCell extends BaseSudokuCell {
 
     }
 
+    //Draws the grid with the specified design
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -27,6 +33,7 @@ public class SudokuCell extends BaseSudokuCell {
         drawLines(canvas);
     }
 
+    //Draws the numbers inside the grid with the specified design
     private void drawNumber(Canvas canvas){
         mPaint.setColor(Color.BLACK);
         mPaint.setTextSize(60);
@@ -40,6 +47,7 @@ public class SudokuCell extends BaseSudokuCell {
         }
     }
 
+    //Draws the lines surrounding the grid with the specified design
     private void drawLines(Canvas canvas) {
         mPaint.setColor(Color.BLACK);
         mPaint.setStrokeWidth(3);
