@@ -128,7 +128,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="La fecha se selecciona presionando la fecha de arriba. \nLa hora se selecciona presionando la hora. "/>
+                    android:text="La fecha se selecciona presionando la fecha de arriba. \n+La hora se selecciona presionando la hora. "/>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
