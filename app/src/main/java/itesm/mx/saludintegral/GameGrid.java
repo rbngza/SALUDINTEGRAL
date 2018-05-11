@@ -10,6 +10,7 @@ import android.widget.Toast;
  * Class that holds the whole Sudoku with the views specified
  * @author Juan Pablo García
  * @version 1
+ * reference: https://www.youtube.com/watch?v=6Ld_4-gTl_g
  */
 
 //Constructor

@@ -8,6 +8,7 @@ import android.content.Context;
  * Class that manages the database for events. It can create and upgrade/downgrade the database.
  * @author Juan Pablo García
  * @version 1
+ * reference: https://www.youtube.com/watch?v=6Ld_4-gTl_g
  */
 
 public class GameEngine {

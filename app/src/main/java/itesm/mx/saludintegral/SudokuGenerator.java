@@ -7,6 +7,7 @@ import java.util.Random;
  * Class that generates the Grid of the Sudoku
  * @author Juan Pablo García
  * @version 1
+ * reference: https://www.youtube.com/watch?v=6Ld_4-gTl_g
  */
 public class SudokuGenerator {
     private static SudokuGenerator instance;

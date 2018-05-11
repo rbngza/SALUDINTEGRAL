@@ -4,6 +4,7 @@ package itesm.mx.saludintegral;
  * Class that checks if the Sudoku grid has been generated correctly
  * @author Juan Pablo García
  * @version 1
+ * reference: https://www.youtube.com/watch?v=6Ld_4-gTl_g
  */
 public class SudokuChecker {
     private static SudokuChecker instance;

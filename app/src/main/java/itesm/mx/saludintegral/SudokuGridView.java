@@ -18,6 +18,7 @@ import android.widget.Toast;
  * Class that manages the correct display of the generated grid in the device
  * @author Juan Pablo García
  * @version 1
+ * reference: https://www.youtube.com/watch?v=6Ld_4-gTl_g
  */
 public class SudokuGridView extends GridView{
 

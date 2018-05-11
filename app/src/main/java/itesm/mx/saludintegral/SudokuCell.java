@@ -12,6 +12,7 @@ import android.graphics.Rect;
  * Class that manages the looks of the generated grid for the sudoku
  * @author Juan Pablo Gacrcía
  * @version 1
+ * reference: https://www.youtube.com/watch?v=6Ld_4-gTl_g
  */
 public class SudokuCell extends BaseSudokuCell {
 

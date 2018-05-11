@@ -15,6 +15,7 @@ import android.widget.GridView;
  * Class that contains the grid for the buttons in the Sudoku
  * @author Juan Pablo García
  * @version 1
+ * reference: https://www.youtube.com/watch?v=6Ld_4-gTl_g
  */
 public class ButtonsGridView extends GridView{
 

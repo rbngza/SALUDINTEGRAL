@@ -9,6 +9,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 //Class that makes the buttons generated for numbers in the sudoku set their value into the grid in modifiable cells
+// reference: https://www.youtube.com/watch?v=6Ld_4-gTl_g
 public class NumberButton extends android.support.v7.widget.AppCompatButton implements View.OnClickListener {
 
     private int number;
