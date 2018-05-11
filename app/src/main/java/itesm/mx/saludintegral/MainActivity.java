@@ -46,13 +46,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Event oldEvent;
     NotificationManager notificationManager;
 
+    private static final String MENU_FRAGMENT_TAG = "tagmenu";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
         Button btnEmergencia = (Button) findViewById(R.id.btn_emergencia);
         btnEmergencia.setOnClickListener(this);
@@ -87,6 +86,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        try{
+            MenuFragment fragment = (MenuFragment) getFragmentManager().findFragmentByTag(MENU_FRAGMENT_TAG);
+            if (fragment.getTag().equals(MENU_FRAGMENT_TAG)){
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            }
+        } catch (Exception e) {
+            // Do nothing
+        }
+    }
+
+    @Override
     public void onClick(View v){
         switch (v.getId()) {
             case R.id.btn_emergencia:
@@ -101,9 +113,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Method for loading the menu layout.
      */
     public void loadMenuFragment(){
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         Fragment fragment = new MenuFragment();
         android.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container, fragment);
+        transaction.replace(R.id.frame_container, fragment, MENU_FRAGMENT_TAG);
         transaction.commit();
     }
 
@@ -124,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * @param searchType SearchType to be displayed
      */
     public void loadAgendaFragment(ArrayList<Event> events, int searchType) {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.set(Calendar.HOUR, 0);
@@ -145,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * @param searchType SearchType to be shown
      */
     public void loadHistoryFragment(ArrayList<Event> events, int searchType) {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Only display events up until this very moment
         events = EventHelper.eventsToDate(events, new Date());
         ArrayList<Integer> separatorSet = new ArrayList<>();
@@ -187,6 +202,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public void onEventAddButtonClicked() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         AddEventFragment addEventFragment = AddEventFragment.newInstance(null, Event.GENERAL);
         getFragmentManager().beginTransaction().replace(R.id.frame_container, addEventFragment).addToBackStack(null).commit();
     }
@@ -196,12 +212,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public void onEventAddFood() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         AddEventFragment addEventFragment = AddEventFragment.newInstance(null, Event.FOOD);
         getFragmentManager().beginTransaction().replace(R.id.frame_container, addEventFragment).addToBackStack(null).commit();
     }
 
     @Override
     public void onPillButtonClicked() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         AddEventFragment addEventFragment = AddEventFragment.newInstance(null, Event.PILL);
         getFragmentManager().beginTransaction().replace(R.id.frame_container, addEventFragment).addToBackStack(null).commit();
     }
@@ -211,6 +229,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public void onEventAddExercise() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         AddEventFragment addEventFragment = AddEventFragment.newInstance(null, Event.EXERCISE);
         getFragmentManager().beginTransaction().replace(R.id.frame_container, addEventFragment).addToBackStack(null).commit();
     }
@@ -220,12 +239,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public void onEventAddMental() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         AddEventFragment addEventFragment = AddEventFragment.newInstance(null, Event.GENERAL);
         getFragmentManager().beginTransaction().replace(R.id.frame_container, addEventFragment).addToBackStack(null).commit();
     }
 
     @Override
     public void onEventItemClicked(Event event) {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         EventDetailFragment eventDetailFragment = EventDetailFragment.newInstance(event);
         getFragmentManager().beginTransaction().replace(R.id.frame_container, eventDetailFragment).addToBackStack(null).commit();
     }
@@ -374,6 +395,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public void onSudokuButtonClicked() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         SudokuFragment fragment = new SudokuFragment();
         getFragmentManager().beginTransaction().replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
@@ -394,6 +416,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public void onPlanButtonClicked() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         SaludIntegralFragment saludIntegral = new SaludIntegralFragment();
         getFragmentManager().beginTransaction().replace(R.id.frame_container, saludIntegral).addToBackStack(null).commit();
     }
