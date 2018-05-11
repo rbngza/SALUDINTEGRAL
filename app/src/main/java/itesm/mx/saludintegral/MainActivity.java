@@ -255,10 +255,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             long id = oldEvent.getId();
             long time = oldEvent.getDate().getTime();
             if (result) {
-                Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
-                cancelNotification(getNotification("Canceled notification", "This notification has been canceled."), time, id);
+                Toast.makeText(this, "Exito", Toast.LENGTH_LONG).show();
+                cancelNotification(getNotification("Notificacion cancelada", "Esta notificación ha sido cancelada."), time, id);
             } else {
-                Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Falló", Toast.LENGTH_LONG).show();
             }
         }
         if (repeat != 0) {
@@ -420,10 +420,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         long id = event.getId();
         long date = event.getDate().getTime();
         if (result) {
-            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
-            cancelNotification(getNotification("Canceled notification", "This notification has been canceled."), date, id);
+            Toast.makeText(this, "Exito", Toast.LENGTH_LONG).show();
+            cancelNotification(getNotification("Notificación cancelada", "Esta notificacion ha sido cancelada"), date, id);
         } else {
-            Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Falló", Toast.LENGTH_LONG).show();
         }
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.popBackStack();
@@ -456,7 +456,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public void onEventChecked(int position, boolean isChecked) {
-        Toast.makeText(this, "changed", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Cambiado", Toast.LENGTH_LONG).show();
         Event event = events.get(position);
         event.setDone(isChecked);
         boolean result = dao.deleteEvent(event.getId());

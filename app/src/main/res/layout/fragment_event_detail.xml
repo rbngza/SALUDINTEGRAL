@@ -95,13 +95,14 @@
                 android:textSize="22sp"
                 android:id="@+id/btn_delete"
                 android:text="@string/delete"/>
+
             <Button
+                android:id="@+id/btn_ok"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:textSize="22sp"
-                android:id="@+id/btn_ok"
-                android:text="@string/ok"/>
+                android:text="@string/regresar"
+                android:textSize="14sp" />
 
         </LinearLayout>
     </RelativeLayout>
