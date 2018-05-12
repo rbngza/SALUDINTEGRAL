@@ -523,4 +523,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 }
 
-
+/*
+    This code was created by Rubén Garza, Mattias Strid, Ivan Escalante and Juan Pablo Garcia
+ */
